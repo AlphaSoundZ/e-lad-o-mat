@@ -1,0 +1,64 @@
+{
+  "questions": [
+    {
+      "answer_type": "single",
+      "answers": [
+        "Bedingte Antwort 1",
+        "Antwort 1",
+        "Antwort 2",
+        "Antwort 3"
+      ],
+      "question": "Frage 1"
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "float",
+          "unit": "Prozent"
+        },
+        { 
+          "type": "integer",
+          "unit": "Kg"
+        }
+      ],
+      "question": "Frage 2"
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "Antwort 1",
+        "Bedingte Antwort 2",
+        "Antwort 3",
+        "Antwort 4"
+      ],
+      "question": "Frage 3"
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "Antwort 1",
+        "Antwort 2",
+        "Antwort 3"
+      ],
+      "condition": [
+        "00",
+        "21"
+      ],
+      "question": "Frage 4"
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "default": 42,
+          "type": "integer",
+          "min": 0,
+          "max": 100,
+          "unit": "Euro"
+        }
+      ],
+      "question": "Frage 5 (0-100)"
+    }
+  ]
+}

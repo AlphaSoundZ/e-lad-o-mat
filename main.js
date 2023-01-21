@@ -27,6 +27,8 @@ const db = getDatabase(app);
 const dbRef = ref(getDatabase());
 
 
+const wrapper = document.getElementById("wrapper");
+
 // Retrieve data from database
 var data = get(child(dbRef, `questions`)).then((snapshot) => {
 if (snapshot.exists()) {
@@ -45,16 +47,27 @@ data.then(function(data) {
     draw(data);
 
     checkKeyPress(data);
+    checkAnswerChange(data);
 });
 
 
 function draw(data) {
-    for (var i = 0; i < data.length; i++) {
+    var first_index = Object.keys(data)[0];
+    console.log(first_index);
+    for (var i = first_index; i < first_index+data.length; i++) { // loop through questions
+        // create question wrapper
+        var question_wrapper = document.createElement("div");
+        question_wrapper.className = "question_wrapper";
+        question_wrapper.id = "question_" + i;
+        wrapper.appendChild(question_wrapper);
+
+        // create question
         var question = document.createElement("h2");
         question.innerHTML = data[i].question;
-        document.getElementById("wrapper").appendChild(question);
+        question_wrapper.appendChild(question);
 
-        for (var j = 0; j < data[i].answers.length; j++) {
+        // create answers
+        for (var j = 0; j < data[i].answers.length; j++) { // loop through answers
             // types: checkbox, radio, text
             var answer = document.createElement("div");
             var id = i.toString() + j.toString();
@@ -71,18 +84,22 @@ function draw(data) {
             }
             else if (data[i].answer_type == "text")
             {
-                if (data[i].answers[j].type == "integer")
+                if (data[i].answers[j].type == "integer" || data[i].answers[j].type == "float")
                 {
-                    var min = data[i].answers[j].min;
-                    var max = data[i].answers[j].max;
-    
+                    var default_val = (data[i].answers[j].default != null) ? data[i].answers[j].default : "";
+                    var unit = data[i].answers[j].unit;
+                    
                     answer.className = "text";
-                    answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + data[i].answers[j].default + '"><label for="' + id + '"> ' + data[i].answers[j].unit + '</label>';
+                    answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
                 }
             }
 
-            document.getElementById("wrapper").appendChild(answer);
+            question_wrapper.appendChild(answer);
         }
+
+        // check if question is based on condition --> hide
+        if (data[i].condition != null)
+            question_wrapper.style.display = "none";
     }
 }
 
@@ -137,4 +154,43 @@ function checkKeyPress(data) {
     });
 }
 
-const wrapper = document.getElementById('wrapper');
+function checkAnswerChange(data) {
+    wrapper.addEventListener('change', function(e) {
+        if (e.target.nodeName !== 'INPUT') {
+            return;
+        }
+        
+        //split id into question and answer
+        var id = e.target.id.split("");
+
+        
+        if (e.target.type == 'radio' || e.target.type == 'checkbox')
+        {
+            for (var i = Object.keys(data)[0]; i < Object.keys(data)[0]+data.length; i++) // loop through questions
+            {
+                var i_condition = data[i].condition;
+                var found = true;
+                if (i_condition)
+                {
+                    console.log("question " + i + " has condition:");
+                    i_condition.forEach(function(condition) {
+                        console.log(document.getElementById(condition).checked);
+                        if (document.getElementById(condition).checked !== true)
+                            found = false;
+                    });
+                    if (found) // if question has condition with id of event target
+                        document.getElementById("question_" + i).style.display = "block";
+                    else
+                        document.getElementById("question_" + i).style.display = "none";
+                }
+                console.log("found: " + found);
+                
+
+            }
+        }
+    });
+}
+
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
