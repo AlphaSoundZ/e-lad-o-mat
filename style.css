@@ -1,0 +1,84 @@
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.loading-body {
+    width: 100%;
+    height: 100%;
+    scale: 1.4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #d8d8d8;
+}
+  
+.loading-bar {
+    width: 4px;
+    height: 18px;
+    margin: 0 8px;
+    border-radius: 4px;
+    transform-box: fill-box;
+    animation: loading 1s ease-in-out infinite, fade 3s ease-in-out infinite;
+}
+
+.loading-bar:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loading-bar:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.loading-bar:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.loading-bar:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+@keyframes loading {
+0% {
+    height: 18px;
+}
+20% {
+    height: 54px;
+}
+40% {
+    height: 18px;
+}
+}
+
+@keyframes fade {
+    0% {
+      background-color: #129ad7;
+    }
+    50% {
+      background-color: #e40f7e;
+    }
+    100% {
+      background-color: #129ad7;
+    }
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity .7s ease-in-out;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Futura PT Bold", sans-serif;
+}
+  
+body {
+    font-family: "Futura Book", sans-serif;
+}
+
+/* green color for radio buttons */
+input[type="radio"]:checked + label::before {
+    background-color: #129ad7;
+}

@@ -30,30 +30,32 @@ const dbRef = ref(getDatabase());
 const wrapper = document.getElementById("wrapper");
 
 // Retrieve data from database
+const startTime = performance.now();
 var data = get(child(dbRef, `questions`)).then((snapshot) => {
-if (snapshot.exists()) {
-    //draw(data);
-    return snapshot.val();
-} else {
-    console.log("No data available");
-}
+    // hide loading screen after 2 seconds (or after data is loaded)
+    const endTime = performance.now();
+    setTimeout(function() {
+        const loading = document.querySelector(".loading-body");
+        loading.classList.add("fade-out")
+        loading.style.pointerEvents = "none";
+    }, 2000-(endTime-startTime));
+    console.log("Time: " + (endTime-startTime) + "ms");
+    
+    if (!snapshot.exists()) {
+        console.log("No data available");
+    } 
+    else
+    {
+        draw(snapshot.val());
+        checkKeyPress(snapshot.val());
+        checkAnswerChange(snapshot.val());
+    }
 }).catch((error) => {
     console.error(error);
 });
 
-
-// Draw questions
-data.then(function(data) {
-    draw(data);
-
-    checkKeyPress(data);
-    checkAnswerChange(data);
-});
-
-
 function draw(data) {
     var first_index = Object.keys(data)[0];
-    console.log(first_index);
     for (var i = first_index; i < first_index+data.length; i++) { // loop through questions
         // create question wrapper
         var question_wrapper = document.createElement("div");
@@ -172,9 +174,7 @@ function checkAnswerChange(data) {
                 var found = true;
                 if (i_condition)
                 {
-                    console.log("question " + i + " has condition:");
                     i_condition.forEach(function(condition) {
-                        console.log(document.getElementById(condition).checked);
                         if (document.getElementById(condition).checked !== true)
                             found = false;
                     });
@@ -183,14 +183,7 @@ function checkAnswerChange(data) {
                     else
                         document.getElementById("question_" + i).style.display = "none";
                 }
-                console.log("found: " + found);
-                
-
             }
         }
     });
-}
-
-function insertAfter(newNode, referenceNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
