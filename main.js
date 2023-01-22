@@ -1,3 +1,4 @@
+loadingAnimationFix();
 // Connect to Firebase
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
@@ -26,7 +27,6 @@ const analytics = getAnalytics(app);
 const db = getDatabase(app);
 const dbRef = ref(getDatabase());
 
-
 const wrapper = document.getElementById("wrapper");
 
 // Retrieve data from database
@@ -38,8 +38,7 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
         const loading = document.querySelector(".loading-body");
         loading.classList.add("fade-out")
         loading.style.pointerEvents = "none";
-    }, 2000-(endTime-startTime));
-    console.log("Time: " + (endTime-startTime) + "ms");
+    }, 700-(endTime-startTime));
     
     if (!snapshot.exists()) {
         console.log("No data available");
@@ -64,7 +63,7 @@ function draw(data) {
         wrapper.appendChild(question_wrapper);
 
         // create question
-        var question = document.createElement("h2");
+        var question = document.createElement("h3");
         question.innerHTML = data[i].question;
         question_wrapper.appendChild(question);
 
@@ -186,4 +185,31 @@ function checkAnswerChange(data) {
             }
         }
     });
+}
+
+function loadingAnimationFix() {
+    // Get the width of the scrollbar
+    // Create a temporary div element
+    var div = document.createElement("div");
+
+    // Add styles to the div element
+    div.style.overflow = "scroll";
+    div.style.visibility = "hidden";
+    div.style.width = "100px";
+    div.style.height = "100px";
+
+    // Append the div element to the body
+    document.body.appendChild(div);
+
+    // Get the width of the scrollbar
+    var scrollbarWidth = div.offsetWidth - div.clientWidth;
+
+    // Remove the div element from the body
+    document.body.removeChild(div);
+
+    // Set the width of the loading body
+    var body = document.body,
+    html = document.documentElement;
+    var docHeight = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    document.getElementById("loading-body").style.width = (html.clientWidth - scrollbarWidth) + "px";
 }
