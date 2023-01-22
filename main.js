@@ -52,7 +52,7 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
         checkAnswerChange(snapshot.val());
         // when user clicks on submit button
         document.getElementById("submit").addEventListener("click", function() {
-            createRecommendation(snapshot.val());
+            createResultPage(snapshot.val());
         });
     }
 }).catch((error) => {
@@ -234,53 +234,39 @@ function loadingAnimationFix() {
 
 // import jsPDF
 import 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js';
-import 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js';
 
-
-function createRecommendation(data) {
+function createResultPage(data) {
     // remove wrapper, static content, submit button, Fragenkatalog
     wrapper.remove();
     document.getElementById("static-content").remove();
     document.getElementById("submit").remove();
     document.getElementById("subtitle").remove();
 
-
-
     // create recommendation wrapper
     var recommendation_wrapper = document.createElement("div");
     var recommendation = document.createElement("div");
     recommendation_wrapper.appendChild(recommendation);
     document.body.appendChild(recommendation_wrapper);
-
-
-    // create test recommendation
+    
+    // Expample for creating a recommendation
     var recommendation_text = document.createElement("p");
     recommendation_text.innerHTML = "Empfehlung: ";
     recommendation.appendChild(recommendation_text);
+
 
     // create Download button
     var downloadBtn = document.createElement("button");
     downloadBtn.innerHTML = "Download PDF";
     document.body.appendChild(downloadBtn);
 
-    
-    // create PDF
+    // generate and download the PDF
     downloadBtn.addEventListener('click', function() {
-        // generate and download the PDF
         var pdf = new jsPDF();
 
-
-    html2canvas(document.getElementById("logo-div")).then(function(canvas) {
-            console.log(canvas);
-            // Get the logo's position
-            var position = document.getElementById("logo-div").getBoundingClientRect();
-            // Add the canvas to the pdf at the same position as the logo
-            console.log(position);
-            pdf.addImage(canvas, 'PNG', position.left, position.top, position.width, position.height);
-
-            // Save the PDF
-            pdf.save("Empfehlung.pdf");
-        });
+        // add the rest of the content
+        pdf.fromHTML(recommendation_wrapper, 15, 15);
+        
+        // Save the PDF
+        pdf.save("Empfehlung.pdf");
     });
 }
-
