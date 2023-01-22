@@ -1,4 +1,6 @@
 loadingAnimationFix();
+
+
 // Connect to Firebase
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
@@ -48,6 +50,10 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
         draw(snapshot.val());
         checkKeyPress(snapshot.val());
         checkAnswerChange(snapshot.val());
+        // when user clicks on submit button
+        document.getElementById("submit").addEventListener("click", function() {
+            createRecommendation(snapshot.val());
+        });
     }
 }).catch((error) => {
     console.error(error);
@@ -76,12 +82,19 @@ function draw(data) {
             if (data[i].answer_type == "single")
             {
                 answer.className = "radio";
-                answer.innerHTML = '<input type="radio" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '">' + data[i].answers[j] + '</label>';
+
+                if (data[i].required && data[i].required == true && j == 0)
+                    answer.innerHTML = '<input type="radio" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '" required>' + data[i].answers[j] + '</label>';
+                else
+                    answer.innerHTML = '<input type="radio" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '">' + data[i].answers[j] + '</label>';
             }
             else if (data[i].answer_type == "multi")
             {
                 answer.className = "checkbox";
-                answer.innerHTML = '<input type="checkbox" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '">' + data[i].answers[j] + '</label>';
+                if (data[i].required && data[i].required == true && j == 0)
+                    answer.innerHTML = '<input type="checkbox" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '">' + data[i].answers[j] + '</label>';
+                else
+                    answer.innerHTML = '<input type="checkbox" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '" required>' + data[i].answers[j] + '</label>';
             }
             else if (data[i].answer_type == "text")
             {
@@ -91,7 +104,10 @@ function draw(data) {
                     var unit = data[i].answers[j].unit;
                     
                     answer.className = "text";
-                    answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
+                    if (data[i].required && data[i].required == true)
+                        answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '" required><label for="' + id + '"> ' + unit + '</label>';
+                    else
+                        answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
                 }
             }
 
@@ -213,3 +229,58 @@ function loadingAnimationFix() {
     var docHeight = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
     document.getElementById("loading-body").style.width = (html.clientWidth - scrollbarWidth) + "px";
 }
+
+
+
+// import jsPDF
+import 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js';
+import 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js';
+
+
+function createRecommendation(data) {
+    // remove wrapper, static content, submit button, Fragenkatalog
+    wrapper.remove();
+    document.getElementById("static-content").remove();
+    document.getElementById("submit").remove();
+    document.getElementById("subtitle").remove();
+
+
+
+    // create recommendation wrapper
+    var recommendation_wrapper = document.createElement("div");
+    var recommendation = document.createElement("div");
+    recommendation_wrapper.appendChild(recommendation);
+    document.body.appendChild(recommendation_wrapper);
+
+
+    // create test recommendation
+    var recommendation_text = document.createElement("p");
+    recommendation_text.innerHTML = "Empfehlung: ";
+    recommendation.appendChild(recommendation_text);
+
+    // create Download button
+    var downloadBtn = document.createElement("button");
+    downloadBtn.innerHTML = "Download PDF";
+    document.body.appendChild(downloadBtn);
+
+    
+    // create PDF
+    downloadBtn.addEventListener('click', function() {
+        // generate and download the PDF
+        var pdf = new jsPDF();
+
+
+    html2canvas(document.getElementById("logo-div")).then(function(canvas) {
+            console.log(canvas);
+            // Get the logo's position
+            var position = document.getElementById("logo-div").getBoundingClientRect();
+            // Add the canvas to the pdf at the same position as the logo
+            console.log(position);
+            pdf.addImage(canvas, 'PNG', position.left, position.top, position.width, position.height);
+
+            // Save the PDF
+            pdf.save("Empfehlung.pdf");
+        });
+    });
+}
+
