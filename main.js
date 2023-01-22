@@ -50,8 +50,26 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
         draw(snapshot.val());
         checkKeyPress(snapshot.val());
         checkAnswerChange(snapshot.val());
+
+        var question_id = 0;
+
+        // when user clicks on start button
+        document.getElementById("start-button").addEventListener("click", function() {
+            firstQuestion(snapshot.val());
+        });
+
+        // when user clicks on next button
+        document.getElementById("next-button").addEventListener("click", function() {
+            question_id = nextQuestion(question_id, snapshot.val());
+        });
+
+        // when user clicks on bock button
+        document.getElementById("back-button").addEventListener("click", function() {
+            question_id = previousQuestion(question_id, snapshot.val());
+        });
+
         // when user clicks on submit button
-        document.getElementById("submit").addEventListener("click", function() {
+        document.getElementById("submit-button").addEventListener("click", function() {
             createResultPage(snapshot.val());
         });
     }
@@ -60,13 +78,16 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
 });
 
 function draw(data) {
-    var first_index = Object.keys(data)[0];
-    for (var i = first_index; i < first_index+data.length; i++) { // loop through questions
+    for (var i = 0; i < data.length; i++) { // loop through questions
         // create question wrapper
         var question_wrapper = document.createElement("div");
         question_wrapper.className = "question_wrapper";
         question_wrapper.id = "question_" + i;
         wrapper.appendChild(question_wrapper);
+
+        // hide question
+        hide(question_wrapper);
+
 
         // create question
         var question = document.createElement("h3");
@@ -82,19 +103,12 @@ function draw(data) {
             if (data[i].answer_type == "single")
             {
                 answer.className = "radio";
-
-                if (data[i].required && data[i].required == true && j == 0)
-                    answer.innerHTML = '<input type="radio" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '" required>' + data[i].answers[j] + '</label>';
-                else
-                    answer.innerHTML = '<input type="radio" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '">' + data[i].answers[j] + '</label>';
+                answer.innerHTML = '<input type="radio" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '">' + data[i].answers[j] + '</label>';
             }
             else if (data[i].answer_type == "multi")
             {
                 answer.className = "checkbox";
-                if (data[i].required && data[i].required == true && j == 0)
-                    answer.innerHTML = '<input type="checkbox" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '">' + data[i].answers[j] + '</label>';
-                else
-                    answer.innerHTML = '<input type="checkbox" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '" required>' + data[i].answers[j] + '</label>';
+                answer.innerHTML = '<input type="checkbox" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '" required>' + data[i].answers[j] + '</label>';
             }
             else if (data[i].answer_type == "text")
             {
@@ -104,10 +118,7 @@ function draw(data) {
                     var unit = data[i].answers[j].unit;
                     
                     answer.className = "text";
-                    if (data[i].required && data[i].required == true)
-                        answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '" required><label for="' + id + '"> ' + unit + '</label>';
-                    else
-                        answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
+                    answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
                 }
             }
 
@@ -116,7 +127,7 @@ function draw(data) {
 
         // check if question is based on condition --> hide
         if (data[i].condition != null)
-            question_wrapper.style.display = "none";
+            hide(question_wrapper);
     }
 }
 
@@ -171,8 +182,9 @@ function checkKeyPress(data) {
     });
 }
 
+// check if answer is changed, if yes, check if condition is met and show/hide questions | will be deleted in future
 function checkAnswerChange(data) {
-    wrapper.addEventListener('change', function(e) {
+    return wrapper.addEventListener('change', function(e) {
         if (e.target.nodeName !== 'INPUT') {
             return;
         }
@@ -194,13 +206,50 @@ function checkAnswerChange(data) {
                             found = false;
                     });
                     if (found) // if question has condition with id of event target
-                        document.getElementById("question_" + i).style.display = "block";
+                    {
+                        return i;
+                    }
                     else
-                        document.getElementById("question_" + i).style.display = "none";
+                        return -1;
                 }
             }
         }
     });
+}
+
+function checkCondition(data, question_id) {
+    var condition = checkAnswerChange(data);
+
+    // check if question is based on condition
+    if (data[question_id].condition == null)
+        return true;
+    
+    for (var i = 0; i < data.length; i++) // loop through questions
+    {
+        var i_condition = data[i].condition;
+        var found = true;
+        if (i_condition)
+        {
+            i_condition.forEach(function(condition) {
+                if (document.getElementById(condition).checked !== true)
+                    found = false;
+            });
+            if (found) // if question has condition with id of event target
+                return true;
+            return false;
+        }
+    }
+    
+    
+    
+    if (condition != -1)
+    {
+        show(document.getElementById(condition));
+    }
+    else
+    {
+        hide(document.getElementById(condition));
+    }
 }
 
 function loadingAnimationFix() {
@@ -238,7 +287,6 @@ import 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js';
 function createResultPage(data) {
     // remove wrapper, static content, submit button, Fragenkatalog
     wrapper.remove();
-    document.getElementById("static-content").remove();
     document.getElementById("submit").remove();
     document.getElementById("subtitle").remove();
 
@@ -269,4 +317,102 @@ function createResultPage(data) {
         // Save the PDF
         pdf.save("Empfehlung.pdf");
     });
+}
+
+
+// start, next, back, submit button
+function firstQuestion() {
+    // hide static content
+    hide(document.getElementById("start-content"));
+
+    // show wrapper
+    show(wrapper);
+
+    // show back button
+    show(document.getElementById("back-button"));
+
+    // show submit button
+    show(document.getElementById("next-button"));
+
+    // show first question
+    show(document.getElementById("question_0"));
+
+}
+
+function backToHome(current_question_id) {
+    // hide current question
+    hide(document.getElementById("question_" + current_question_id));
+
+    // hide wrapper
+    hide(wrapper);
+
+    // hide back button
+    hide(document.getElementById("back-button"));
+
+    // hide next button
+    hide(document.getElementById("next-button"));
+
+    // hide submit button
+    hide(document.getElementById("submit-button"));
+
+    // hide first question
+    hide(document.getElementById("question_0"));
+
+    // show static content
+    show(document.getElementById("start-content"));
+}
+
+function nextQuestion(current_question_id, data) {
+    
+    show(document.getElementById("back-button"));
+
+    if (document.getElementById("question_" + (current_question_id+1)) == null)
+        return current_question_id;
+    
+    // hide current question
+    hide(document.getElementById("question_" + current_question_id));
+
+    if (checkCondition(data, current_question_id+1) == false)
+        return nextQuestion(current_question_id+1, data);
+
+    if (current_question_id == data.legth-2)
+    {
+        hide(document.getElementById("next-button"));
+        show(document.getElementById("submit-button"));
+    }
+
+    // show next question
+    show(document.getElementById("question_" + (current_question_id+1)));
+
+    return current_question_id+1;
+}
+
+function previousQuestion(current_question_id , data) {
+    show(document.getElementById("next-button"));
+
+    // hide current question
+    hide(document.getElementById("question_" + current_question_id));
+    
+    if (current_question_id == 0)
+    {
+        backToHome(current_question_id);
+        return 0;
+    }
+
+    if (checkCondition(data, current_question_id-1) == false)
+        return previousQuestion(current_question_id-1, data);
+
+    // show previous question
+    show(document.getElementById("question_" + (current_question_id-1)));
+
+    return current_question_id-1;
+}
+
+// show, hide
+function show(element) {
+    element.style.display = "block";
+}
+
+function hide(element) {
+    element.style.display = "none";
 }

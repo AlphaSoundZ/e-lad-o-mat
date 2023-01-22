@@ -8,8 +8,7 @@
         "Antwort 2",
         "Antwort 3"
       ],
-      "question": "Frage 1",
-      "required": true
+      "question": "Frage 1"
     },
     {
       "answer_type": "text",
@@ -33,8 +32,7 @@
         "Antwort 3",
         "Antwort 4"
       ],
-      "question": "Frage 3",
-      "required": true
+      "question": "Frage 3"
     },
     {
       "answer_type": "multi",

@@ -73,7 +73,7 @@
     font-style: normal;
 }
 
-.static-content h1, h2, h3, h4, h5, h6 {
+.start-content h1, h2, h3, h4, h5, h6 {
     font-family: futura-pt-bold, sans-serif;
     font-weight: 700;
     font-style: normal;
@@ -87,14 +87,14 @@ body {
     font-size: large;
 }
 
-.wrapper, .static-content {
+.wrapper, .start-content {
     display: flex;
     flex-direction: column;
     margin: 0 70px;
 }
 
 @media (max-width: 768px) {
-    .wrapper, .static-content {
+    .wrapper, .start-content {
         margin: 0 10px;
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>E-Lad-O-Mat | Fragebogen</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://use.typekit.net/wsh4uvg.css">
 </head>
@@ -25,29 +25,23 @@
         <h2 class="title" id="title">Empfehlung zum Ausbaupotential von Parkbauten</h2>
         <h3 class="subtitle" id="subtitle">Fragenkatalog</h3>
     </div>
-    <div class="static-content" id="static-content">
-        <h3>Standort der Parkbauten</h3>
-        <div class="form-group">
-            <div class="form-row">
-                <label for="input-text1">Label Text 1:</label>
-                <input type="text" id="input-text1">
-            </div>
-            <div class="form-row">
-                <label for="input-text2">Label Text 2:</label>
-                <input type="text" id="input-text2">
-            </div>
-            <div class="form-row">
-                <label for="input-text3">Label Text 3:</label>
-                <input type="text" id="input-text3">
-            </div>
-        </div>               
+
+    <div class="start-content" id="start-content">
+        <div class="start-content-text" id="start-content-text">
+            <p class="start-content-text-p" id="start-content-text-p">Der E-Lad-O-Mat ist ein Fragebogen, der Ihnen dabei hilft, die Ausbaupotenziale von Parkbauten zu ermitteln. Die Auswertung erfolgt anhand von Fragen, die sich auf die verschiedenen Aspekte der Parkbauten beziehen.</p>
+        </div>
+        <div class="start-content-button" id="start-content-button">
+            <button class="start-button" id="start-button">Start</button>
+        </div>
     </div>
     
+
     <div id="wrapper" class="wrapper"></div>
 
-    <div class="submit">
-        <button id="submit" class="submit-button">Weiter</button>
-    </div>
+    <button class="back-button" id="back-button" hidden>Zurück</button>
+    <button class="next-button" id="next-button" hidden>Weiter</button>
+    <button class="submit-button" id="submit-button" hidden>Zur Auswertung</button>
+
     <script type="module" src="main.js"></script>
 </body>
 </html>
