@@ -390,26 +390,25 @@ function backToHome(current_page_id) {
 }
 
 function nextPage(current_page_id, data) {
-    
     show(document.getElementById("back-button"));
     
     // hide current Page
     hide(document.getElementById("page_" + current_page_id));
 
-
-    
-    if (current_page_id == data.length-1 || (checkCondition(data, current_page_id+1) == false && current_page_id+1 == data.length-1))
+    if (current_page_id == data.length-1 || (checkCondition(data, current_page_id+1) == false && current_page_id+1 == data.length-1)) // Pre-Submit Page
     {
         hide(document.getElementById("next-button"));
         show(document.getElementById("submit-button"));
-        return current_page_id+1;
+    }
+    else // normal Page
+    {
+        // hide submit button
+        hide(document.getElementById("submit-button"));
     }
 
-    // hide submit button
-    hide(document.getElementById("submit-button"));
-
-    if (current_page_id+1 < data.length && checkCondition(data, current_page_id+1) == false)
+    if (current_page_id+1 < data.length && checkCondition(data, current_page_id+1) == false) // skip Page if condition is not met
     {
+        // try the next Page
         return nextPage(current_page_id+1, data);
     }
 
@@ -425,17 +424,23 @@ function previousPage(current_page_id , data) {
     // hide current Page
     hide(document.getElementById("page_" + current_page_id));
     
-    if (current_page_id == 0)
+    if (current_page_id == 0) // home page
     {
-        backToHome(current_page_id); // go back to home page
+        backToHome(current_page_id);
         return 0;
     }
+    
+    if (current_page_id == data.length) // Pre-Submit Page
+    {
+        // hide submit button
+        hide(document.getElementById("submit-button"));
+    }
 
-    // hide submit button
-    hide(document.getElementById("submit-button"));
-
-    if (current_page_id-1 < data.length && checkCondition(data, current_page_id-1) == false) 
+    if (current_page_id-1 < data.length && checkCondition(data, current_page_id-1) == false) // skip Page if condition is not met
+    {
+        // try the previous Page
         return previousPage(current_page_id-1, data);
+    }
 
     // show previous Page
     show(document.getElementById("page_" + (current_page_id-1)));
