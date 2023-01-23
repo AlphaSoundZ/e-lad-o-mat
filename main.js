@@ -141,6 +141,19 @@ function draw(data) {
         if (data[i].condition != null)
             hide(page_wrapper);
     }
+
+
+    // create pre-submit page
+    var page_wrapper = document.createElement("div");
+    page_wrapper.className = "page_wrapper";
+    page_wrapper.id = "page_" + data.length;
+    wrapper.appendChild(page_wrapper);
+    // create hint
+    var p = document.createElement("p");
+    p.innerHTML = "Aus den angegebenen Parametern sowie den gewünschten Funktionen der Ladeinfrastruktur ergeben sich folgende Empfehlungen für den Ausbau:";
+    p.className = "hint pre-submit-text";
+    page_wrapper.appendChild(p);
+    hide(page_wrapper);
 }
 
 function isValidNumber(el, event, type, min = null, max = null) {
@@ -254,31 +267,10 @@ function checkCondition(data, page_id) {
     if (data[page_id].condition == null)
         return true;
     
-    for (var i = 0; i < data.length; i++) // loop through questions
+    for (var i = 0; i < data[page_id].condition.length; i++)
     {
-        var i_condition = data[i].condition;
-        var found = true;
-        if (i_condition)
-        {
-            i_condition.forEach(function(condition) {
-                if (document.getElementById(condition).checked !== true)
-                    found = false;
-            });
-            if (found) // if question has condition with id of event target
-                return true;
+        if (document.getElementById(data[page_id].condition[i]).checked != true)
             return false;
-        }
-    }
-    
-    
-    
-    if (condition != -1)
-    {
-        show(document.getElementById(condition));
-    }
-    else
-    {
-        hide(document.getElementById(condition));
     }
 }
 
@@ -405,6 +397,7 @@ function nextPage(current_page_id, data) {
     hide(document.getElementById("page_" + current_page_id));
 
 
+    
     if (current_page_id == data.length-1 || (checkCondition(data, current_page_id+1) == false && current_page_id+1 == data.length-1))
     {
         hide(document.getElementById("next-button"));
@@ -415,13 +408,9 @@ function nextPage(current_page_id, data) {
     // hide submit button
     hide(document.getElementById("submit-button"));
 
-    if (checkCondition(data, current_page_id+1) == false)
-        return nextPage(current_page_id+1, data);
-
-    if (current_page_id+1 == data.legth-1) // if next Page is last question
+    if (current_page_id+1 < data.length && checkCondition(data, current_page_id+1) == false)
     {
-        hide(document.getElementById("next-button"));
-        show(document.getElementById("submit-button"));
+        return nextPage(current_page_id+1, data);
     }
 
     // show next Page
@@ -438,14 +427,14 @@ function previousPage(current_page_id , data) {
     
     if (current_page_id == 0)
     {
-        backToHome(current_page_id);
+        backToHome(current_page_id); // go back to home page
         return 0;
     }
 
     // hide submit button
     hide(document.getElementById("submit-button"));
 
-    if (checkCondition(data, current_page_id-1) == false)
+    if (current_page_id-1 < data.length && checkCondition(data, current_page_id-1) == false) 
         return previousPage(current_page_id-1, data);
 
     // show previous Page
@@ -479,4 +468,13 @@ function toggleNextButton(current_page_id, data) {
         enable(nextButton);
     else
         disable(nextButton);
+}
+
+
+function getLastPageId()
+{
+    var last_page_id = 0;
+    while (document.getElementById("page_" + last_page_id) != null)
+        last_page_id++;
+    return last_page_id;
 }
