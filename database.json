@@ -65,5 +65,56 @@
       "question": "Frage 5 (0-100)",
       "required": true
     }
+  ],
+  "recommendations": [
+    {
+      "title": "Daten der Parkbauten:",
+      "paragraphs": [
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "var",
+              "id": "00"
+            }
+          ]
+        },
+        {
+          "type" : "text",
+          "text": [
+            {
+              "type": "var",
+              "id": "01"
+            },
+            {
+              "type": "string",
+              "string": ", "
+            },
+            {
+              "type": "var",
+              "id": "02"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "var",
+              "string": "03"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Emfehlungstext 1",
+      "criteria": [
+        {
+          "answer": "00",
+          "invert": "false"
+        }
+      ]
+    }
   ]
 }

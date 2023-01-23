@@ -51,6 +51,8 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
         checkKeyPress(snapshot.val());
 
         var page_id = -1;
+        var pre_result_page_id = snapshot.val().length;
+        var result_page_id = null;
 
         // when user clicks on start button
         document.getElementById("start-button").addEventListener("click", function() {
@@ -77,7 +79,8 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
 
         // when user clicks on submit button
         document.getElementById("submit-button").addEventListener("click", function() {
-            createResultPage(snapshot.val());
+            createResultPages(snapshot.val(), snapshot.val());
+            firstResultPage(pre_result_page_id, snapshot.val());
         });
 
         // check if required condition is met for current question
@@ -89,6 +92,7 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
     console.error(error);
 });
 
+// Page Generation Functions
 function draw(data) {
     for (var i = 0; i < data.length; i++) { // loop through questions
         // create question wrapper
@@ -156,6 +160,8 @@ function draw(data) {
     hide(page_wrapper);
 }
 
+
+// Check Functions
 function isValidNumber(el, event, type, min = null, max = null) {
     var charC = (event.which) ? event.which : event.keyCode;
     if ((charC == 46 || charC == 44) && type == "float")
@@ -302,31 +308,62 @@ function loadingAnimationFix() {
 }
 
 
+// Result Functions
+
 // import jsPDF
 import 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js';
 
-function createResultPage(data) {
-    // remove wrapper, static content, submit button, Fragenkatalog
-    wrapper.remove();
-    document.getElementById("submit").remove();
-    document.getElementById("subtitle").remove();
+function createResultPages(recommendations, data) {
 
     // create recommendation wrapper
-    var recommendation_wrapper = document.createElement("div");
     var recommendation = document.createElement("div");
-    recommendation_wrapper.appendChild(recommendation);
-    document.body.appendChild(recommendation_wrapper);
+    recommendation.className = "page_wrapper";
+    recommendation.id = "page_" + (data.length + 1);
+    wrapper.appendChild(recommendation);
+    hide(recommendation);
+
+    // get answers
+    var answers = getAnswers(data);
+
+    for (var i = 0; i < recommendations.length; i++)
+    {
+        var recommendation_wrapper = document.createElement("div");
+        recommendation_wrapper.className = "recommendation_wrapper";
+        recommendation.appendChild(recommendation_wrapper);
+
+        // create recommendation title
+        var recommendation_title = document.createElement("h1");
+        recommendation_title.innerHTML = "Empfehlung " + (i+1);
+        recommendation_wrapper.appendChild(recommendation_title);
+
+        // create recommendation text
+        var recommendation_text = document.createElement("p");
+        recommendation_text.innerHTML = recommendations[i].text;
+        recommendation_wrapper.appendChild(recommendation_text);
+
+        // generate and download the PDF
+        recommendation_button.addEventListener('click', function() {
+            var pdf = new jsPDF();
+
+            // add the rest of the content
+            pdf.fromHTML(recommendation_wrapper, 15, 15);
+            
+            // Save the PDF
+            pdf.save("Empfehlung.pdf");
+        });
+    }
+    
     
     // Expample for creating a recommendation
     var recommendation_text = document.createElement("p");
-    recommendation_text.innerHTML = "Empfehlung: ";
+    recommendation_text.innerHTML = "Empfehlung 1: ";
     recommendation.appendChild(recommendation_text);
 
 
     // create Download button
     var downloadBtn = document.createElement("button");
     downloadBtn.innerHTML = "Download PDF";
-    document.body.appendChild(downloadBtn);
+    recommendation.appendChild(downloadBtn);
 
     // generate and download the PDF
     downloadBtn.addEventListener('click', function() {
@@ -341,28 +378,7 @@ function createResultPage(data) {
 }
 
 
-// start, next, back, submit button
-function firstQuestion() {
-    // hide static content
-    hide(document.getElementById("start-content"));
-
-    // hide start button
-    hide(document.getElementById("start-button"));
-
-    // show wrapper
-    show(wrapper);
-
-    // show back button
-    show(document.getElementById("back-button"));
-
-    // show submit button
-    show(document.getElementById("next-button"));
-
-    // show first question
-    show(document.getElementById("page_0"));
-
-}
-
+// Page Navigation Functions
 function backToHome(current_page_id) {
     // hide current Page
     hide(document.getElementById("page_" + current_page_id));
@@ -389,13 +405,41 @@ function backToHome(current_page_id) {
     show(document.getElementById("start-button"));
 }
 
+function firstQuestion() {
+    // hide static content
+    hide(document.getElementById("start-content"));
+
+    // hide start button
+    hide(document.getElementById("start-button"));
+
+    // show wrapper
+    show(wrapper);
+
+    // show back button
+    show(document.getElementById("back-button"));
+
+    // show submit button
+    show(document.getElementById("next-button"));
+
+    // show first question
+    show(document.getElementById("page_0"));
+
+}
+
+function firstResultPage(current_page_id, data) {
+    hide(document.getElementById("page_" + current_page_id));
+    hide(document.getElementById("back-button"));
+    hide(document.getElementById("submit-button"));
+    show(document.getElementById("next-button"));
+    show(document.getElementById("page_" + (data.length + 1)));
+}
+
 function nextPage(current_page_id, data) {
     show(document.getElementById("back-button"));
     
     // hide current Page
     hide(document.getElementById("page_" + current_page_id));
-
-    if (current_page_id == data.length-1 || (checkCondition(data, current_page_id+1) == false && current_page_id+1 == data.length-1)) // Pre-Submit Page
+    if (current_page_id == data.length-1 || (checkCondition(data, current_page_id+1) == false && current_page_id == data.length-2)) // Pre-Submit Page
     {
         hide(document.getElementById("next-button"));
         show(document.getElementById("submit-button"));
@@ -448,7 +492,8 @@ function previousPage(current_page_id , data) {
     return current_page_id-1;
 }
 
-// show, hide
+
+// Visibility Control Functions
 function show(element) {
     element.style.display = "block";
 }
@@ -465,7 +510,6 @@ function enable(element) {
     element.disabled = false;
 }
 
-// toggle
 function toggleNextButton(current_page_id, data) {
     var nextButton = document.getElementById("next-button");
 
@@ -476,10 +520,29 @@ function toggleNextButton(current_page_id, data) {
 }
 
 
+
 function getLastPageId()
 {
     var last_page_id = 0;
     while (document.getElementById("page_" + last_page_id) != null)
         last_page_id++;
     return last_page_id;
+}
+
+function getAnswers(data) {
+    var answers = [];
+    for (var i = 0; i < data.length; i++)
+    {
+        answers[i] = []
+        for (var j = 0; j < data[i].answers.length; j++)
+        {
+            var answer = document.getElementById(i.toString() + j);
+
+            if (data[i].answer_type == "single" || data[i].answer_type == "multi")
+                answers[i][j] = answer.checked;
+            else
+                answers[i][j] = answer.value;
+        }
+    }
+    return answers;
 }
