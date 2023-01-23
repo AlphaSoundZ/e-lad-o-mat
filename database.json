@@ -10,7 +10,7 @@
       ],
       "question": "Frage 1",
       "hint": "Hinweis:",
-      "required": true
+      "required": false
     },
     {
       "answer_type": "text",
@@ -25,7 +25,7 @@
         }
       ],
       "question": "Frage 2",
-      "required": true
+      "required": false
     },
     {
       "answer_type": "multi",
@@ -36,7 +36,7 @@
         "Antwort 4"
       ],
       "question": "Frage 3",
-      "required": true
+      "required": false
     },
     {
       "answer_type": "multi",
@@ -50,7 +50,7 @@
         "21"
       ],
       "question": "Frage 4",
-      "required": true
+      "required": false
     },
     {
       "answer_type": "text",
@@ -63,7 +63,7 @@
         }
       ],
       "question": "Frage 5 (0-100)",
-      "required": true
+      "required": false
     }
   ],
   "recommendations": [

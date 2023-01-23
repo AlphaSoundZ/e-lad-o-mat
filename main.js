@@ -37,7 +37,8 @@ var data = get(dbRef).then((snapshot) => {
     // hide loading screen after 2 seconds (or after data is loaded)
     const endTime = performance.now();
     const data = snapshot.val();
-    const questions = snapshot.val()["questions"];
+    const questions = data["questions"];
+    const recommendations = data["recommendations"];
     setTimeout(function() {
         const loading = document.querySelector(".loading-body");
         loading.classList.add("fade-out")
@@ -81,7 +82,7 @@ var data = get(dbRef).then((snapshot) => {
 
         // when user clicks on submit button
         document.getElementById("submit-button").addEventListener("click", function() {
-            createResultPages(questions, questions);
+            createResultPages(recommendations, questions);
             firstResultPage(pre_result_page_id, questions);
         });
 
@@ -315,57 +316,53 @@ function loadingAnimationFix() {
 // import jsPDF
 import 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js';
 
-function createResultPages(recommendations, data) {
-
-    // create recommendation wrapper
-    var recommendation = document.createElement("div");
-    recommendation.className = "page_wrapper";
-    recommendation.id = "page_" + (data.length + 1);
-    wrapper.appendChild(recommendation);
-    hide(recommendation);
-
+function createResultPages(recommendations, questions) {
     // get answers
-    var answers = getAnswers(data);
+    var answers = getAnswers(questions);
 
     for (var i = 0; i < recommendations.length; i++)
     {
-        var recommendation_wrapper = document.createElement("div");
-        recommendation_wrapper.className = "recommendation_wrapper";
-        recommendation.appendChild(recommendation_wrapper);
-
-        // create recommendation title
-        var recommendation_title = document.createElement("h1");
-        recommendation_title.innerHTML = "Empfehlung " + (i+1);
-        recommendation_wrapper.appendChild(recommendation_title);
-
-        // create recommendation text
-        var recommendation_text = document.createElement("p");
-        recommendation_text.innerHTML = recommendations[i].text;
-        recommendation_wrapper.appendChild(recommendation_text);
+        createResultPage(answers, recommendations[i], i);
     }
-    
-    
-    // Expample for creating a recommendation
-    var recommendation_text = document.createElement("p");
-    recommendation_text.innerHTML = "Empfehlung 1: ";
-    recommendation.appendChild(recommendation_text);
-
 
     // create Download button
     var downloadBtn = document.createElement("button");
     downloadBtn.innerHTML = "Download PDF";
-    recommendation.appendChild(downloadBtn);
+    document.body.appendChild(downloadBtn);
 
     // generate and download the PDF
     downloadBtn.addEventListener('click', function() {
         var pdf = new jsPDF();
 
         // add the rest of the content
-        pdf.fromHTML(recommendation_wrapper, 15, 15);
+        for (var i = questions.length+1; i <= getLastPageId(); i++)
+        {
+            var recommendation_wrapper = document.getElementById("page_" + i);
+            pdf.fromHTML(recommendation_wrapper, 15, 15);
+        }
+            
         
         // Save the PDF
         pdf.save("Empfehlung.pdf");
     });
+}
+
+function createResultPage(answers, data, i) { // data = one recommendation, i = nth recommendation
+    var id = getLastPageId() + 1;
+
+    // create page wrapper
+    var page_wrapper = document.createElement("div");
+    page_wrapper.className = "page_wrapper";
+    page_wrapper.id = "page_" + id;
+    wrapper.appendChild(page_wrapper);
+
+    // create recommendation title
+    var recommendation_title = document.createElement("h2");
+    if (i == 0) // only the first recommendation has no number
+        recommendation_title.innerHTML = data.title;
+    else
+        recommendation_title.innerHTML = "Empfehlung " + i + ": " + data.title;
+    page_wrapper.appendChild(recommendation_title);
 }
 
 
@@ -514,10 +511,10 @@ function toggleNextButton(current_page_id, data) {
 
 function getLastPageId()
 {
-    var last_page_id = 0;
-    while (document.getElementById("page_" + last_page_id) != null)
-        last_page_id++;
-    return last_page_id;
+    var id = 0;
+    while (document.getElementById("page_" + id) != null)
+        id++;
+    return id-1;
 }
 
 function getAnswers(data) {
