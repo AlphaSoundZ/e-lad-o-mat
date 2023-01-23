@@ -340,17 +340,6 @@ function createResultPages(recommendations, data) {
         var recommendation_text = document.createElement("p");
         recommendation_text.innerHTML = recommendations[i].text;
         recommendation_wrapper.appendChild(recommendation_text);
-
-        // generate and download the PDF
-        recommendation_button.addEventListener('click', function() {
-            var pdf = new jsPDF();
-
-            // add the rest of the content
-            pdf.fromHTML(recommendation_wrapper, 15, 15);
-            
-            // Save the PDF
-            pdf.save("Empfehlung.pdf");
-        });
     }
     
     
