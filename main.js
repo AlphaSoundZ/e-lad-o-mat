@@ -49,28 +49,42 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
     {
         draw(snapshot.val());
         checkKeyPress(snapshot.val());
-        checkAnswerChange(snapshot.val());
 
-        var question_id = 0;
+        var question_id = -1;
 
         // when user clicks on start button
         document.getElementById("start-button").addEventListener("click", function() {
+            question_id = 0;
             firstQuestion(snapshot.val());
+
+            toggleNextButton(question_id, snapshot.val());
         });
 
         // when user clicks on next button
         document.getElementById("next-button").addEventListener("click", function() {
             question_id = nextQuestion(question_id, snapshot.val());
+
+            toggleNextButton(question_id, snapshot.val());
         });
 
         // when user clicks on bock button
         document.getElementById("back-button").addEventListener("click", function() {
             question_id = previousQuestion(question_id, snapshot.val());
+
+            toggleNextButton(question_id, snapshot.val());
         });
 
         // when user clicks on submit button
         document.getElementById("submit-button").addEventListener("click", function() {
             createResultPage(snapshot.val());
+
+            toggleSubmitButton(question_id, snapshot.val());
+        });
+
+        // check if required condition is met for current question
+        document.addEventListener("change", function() {
+            toggleNextButton(question_id, snapshot.val());
+            console.log("change");
         });
     }
 }).catch((error) => {
@@ -182,7 +196,6 @@ function checkKeyPress(data) {
     });
 }
 
-// check if answer is changed, if yes, check if condition is met and show/hide questions | will be deleted in future
 function checkAnswerChange(data) {
     return wrapper.addEventListener('change', function(e) {
         if (e.target.nodeName !== 'INPUT') {
@@ -215,6 +228,25 @@ function checkAnswerChange(data) {
             }
         }
     });
+}
+
+function checkRequired(current_question_id, data) {
+    var required = data[current_question_id].required;
+    if (required)
+    {
+        for (var i = 0; i < data[current_question_id].answers.length; i++)
+        {
+            if (data[current_question_id].answer_type == "text" && document.getElementById(current_question_id.toString() + i).value == "") // every textbox must be filled
+                return false;
+            else if ((data[current_question_id].answer_type == "single" || data[current_question_id].answer_type == "multi") && document.getElementById(current_question_id.toString() + i).checked == true) // at least one checkbox must be checked
+                return true;
+        }
+
+        if (data[current_question_id].answer_type == "text")
+            return true;
+        return false;
+    }
+    return true;
 }
 
 function checkCondition(data, question_id) {
@@ -280,7 +312,6 @@ function loadingAnimationFix() {
 }
 
 
-
 // import jsPDF
 import 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js';
 
@@ -325,6 +356,9 @@ function firstQuestion() {
     // hide static content
     hide(document.getElementById("start-content"));
 
+    // hide start button
+    hide(document.getElementById("start-button"));
+
     // show wrapper
     show(wrapper);
 
@@ -360,6 +394,9 @@ function backToHome(current_question_id) {
 
     // show static content
     show(document.getElementById("start-content"));
+
+    // show start button
+    show(document.getElementById("start-button"));
 }
 
 function nextQuestion(current_question_id, data) {
@@ -415,4 +452,32 @@ function show(element) {
 
 function hide(element) {
     element.style.display = "none";
+}
+
+function disable(element) {
+    element.disabled = true;
+}
+
+function enable(element) {
+    element.disabled = false;
+}
+
+// toggle
+function toggleNextButton(current_question_id, data) {
+    console.log("toggleNextButton");
+    var nextButton = document.getElementById("next-button");
+
+    if (checkRequired(current_question_id, data))
+        enable(nextButton);
+    else
+        disable(nextButton);
+}
+
+function toggleSubmitButton(current_question_id, data) {
+    var submitButton = document.getElementById("submit-button");
+
+    if (checkRequired(current_question_id, data))
+        enable(submitButton);
+    else
+        disable(submitButton);
 }

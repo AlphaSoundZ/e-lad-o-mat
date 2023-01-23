@@ -8,7 +8,9 @@
         "Antwort 2",
         "Antwort 3"
       ],
-      "question": "Frage 1"
+      "question": "Frage 1",
+      "hint": "Hinweis:",
+      "required": true
     },
     {
       "answer_type": "text",
@@ -22,7 +24,8 @@
           "unit": "Kg"
         }
       ],
-      "question": "Frage 2"
+      "question": "Frage 2",
+      "required": false
     },
     {
       "answer_type": "multi",
@@ -32,7 +35,8 @@
         "Antwort 3",
         "Antwort 4"
       ],
-      "question": "Frage 3"
+      "question": "Frage 3",
+      "required": true
     },
     {
       "answer_type": "multi",
@@ -45,20 +49,21 @@
         "00",
         "21"
       ],
-      "question": "Frage 4"
+      "question": "Frage 4",
+      "required": true
     },
     {
       "answer_type": "text",
       "answers": [
         {
-          "default": 42,
           "type": "integer",
           "min": 0,
           "max": 100,
           "unit": "Euro"
         }
       ],
-      "question": "Frage 5 (0-100)"
+      "question": "Frage 5 (0-100)",
+      "required": true
     }
   ]
 }
