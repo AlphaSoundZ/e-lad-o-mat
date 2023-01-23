@@ -50,29 +50,29 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
         draw(snapshot.val());
         checkKeyPress(snapshot.val());
 
-        var question_id = -1;
+        var page_id = -1;
 
         // when user clicks on start button
         document.getElementById("start-button").addEventListener("click", function() {
-            question_id = 0;
+            page_id = 0;
             firstQuestion(snapshot.val());
 
-            toggleNextButton(question_id, snapshot.val());
+            toggleNextButton(page_id, snapshot.val());
         });
 
         // when user clicks on next button
         document.getElementById("next-button").addEventListener("click", function() {
-            question_id = nextQuestion(question_id, snapshot.val());
+            page_id = nextPage(page_id, snapshot.val());
 
-            if (question_id < snapshot.val().length)
-                toggleNextButton(question_id, snapshot.val());
+            if (page_id < snapshot.val().length)
+                toggleNextButton(page_id, snapshot.val());
         });
 
         // when user clicks on bock button
         document.getElementById("back-button").addEventListener("click", function() {
-            question_id = previousQuestion(question_id, snapshot.val());
+            page_id = previousPage(page_id, snapshot.val());
 
-            toggleNextButton(question_id, snapshot.val());
+            toggleNextButton(page_id, snapshot.val());
         });
 
         // when user clicks on submit button
@@ -82,7 +82,7 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
 
         // check if required condition is met for current question
         document.addEventListener("change", function() {
-            toggleNextButton(question_id, snapshot.val());
+            toggleNextButton(page_id, snapshot.val());
         });
     }
 }).catch((error) => {
@@ -228,30 +228,30 @@ function checkAnswerChange(data) {
     });
 }
 
-function checkRequired(current_question_id, data) {
-    var required = data[current_question_id].required;
+function checkRequired(current_page_id, data) {
+    var required = data[current_page_id].required;
     if (required)
     {
-        for (var i = 0; i < data[current_question_id].answers.length; i++)
+        for (var i = 0; i < data[current_page_id].answers.length; i++)
         {
-            if (data[current_question_id].answer_type == "text" && document.getElementById(current_question_id.toString() + i).value == "") // every textbox must be filled
+            if (data[current_page_id].answer_type == "text" && document.getElementById(current_page_id.toString() + i).value == "") // every textbox must be filled
                 return false;
-            else if ((data[current_question_id].answer_type == "single" || data[current_question_id].answer_type == "multi") && document.getElementById(current_question_id.toString() + i).checked == true) // at least one checkbox must be checked
+            else if ((data[current_page_id].answer_type == "single" || data[current_page_id].answer_type == "multi") && document.getElementById(current_page_id.toString() + i).checked == true) // at least one checkbox must be checked
                 return true;
         }
 
-        if (data[current_question_id].answer_type == "text")
+        if (data[current_page_id].answer_type == "text")
             return true;
         return false;
     }
     return true;
 }
 
-function checkCondition(data, question_id) {
+function checkCondition(data, page_id) {
     var condition = checkAnswerChange(data);
 
     // check if question is based on condition
-    if (data[question_id].condition == null)
+    if (data[page_id].condition == null)
         return true;
     
     for (var i = 0; i < data.length; i++) // loop through questions
@@ -371,9 +371,9 @@ function firstQuestion() {
 
 }
 
-function backToHome(current_question_id) {
-    // hide current question
-    hide(document.getElementById("page_" + current_question_id));
+function backToHome(current_page_id) {
+    // hide current Page
+    hide(document.getElementById("page_" + current_page_id));
 
     // hide wrapper
     hide(wrapper);
@@ -390,9 +390,6 @@ function backToHome(current_question_id) {
     // hide submit button
     hide(document.getElementById("submit-button"));
 
-    // hide first question
-    hide(document.getElementById("page_0"));
-
     // show static content
     show(document.getElementById("start-content"));
 
@@ -400,61 +397,61 @@ function backToHome(current_question_id) {
     show(document.getElementById("start-button"));
 }
 
-function nextQuestion(current_question_id, data) {
+function nextPage(current_page_id, data) {
     
     show(document.getElementById("back-button"));
     
-    // hide current question
-    hide(document.getElementById("page_" + current_question_id));
+    // hide current Page
+    hide(document.getElementById("page_" + current_page_id));
 
 
-    if (current_question_id == data.length-1 || (checkCondition(data, current_question_id+1) == false && current_question_id+1 == data.length-1))
+    if (current_page_id == data.length-1 || (checkCondition(data, current_page_id+1) == false && current_page_id+1 == data.length-1))
     {
         hide(document.getElementById("next-button"));
         show(document.getElementById("submit-button"));
-        return current_question_id+1;
+        return current_page_id+1;
     }
 
     // hide submit button
     hide(document.getElementById("submit-button"));
 
-    if (checkCondition(data, current_question_id+1) == false)
-        return nextQuestion(current_question_id+1, data);
+    if (checkCondition(data, current_page_id+1) == false)
+        return nextPage(current_page_id+1, data);
 
-    if (current_question_id+1 == data.legth-1) // if next question is last question
+    if (current_page_id+1 == data.legth-1) // if next Page is last question
     {
         hide(document.getElementById("next-button"));
         show(document.getElementById("submit-button"));
     }
 
-    // show next question
-    show(document.getElementById("page_" + (current_question_id+1)));
+    // show next Page
+    show(document.getElementById("page_" + (current_page_id+1)));
 
-    return current_question_id+1;
+    return current_page_id+1;
 }
 
-function previousQuestion(current_question_id , data) {
+function previousPage(current_page_id , data) {
     show(document.getElementById("next-button"));
 
-    // hide current question
-    hide(document.getElementById("page_" + current_question_id));
+    // hide current Page
+    hide(document.getElementById("page_" + current_page_id));
     
-    if (current_question_id == 0)
+    if (current_page_id == 0)
     {
-        backToHome(current_question_id);
+        backToHome(current_page_id);
         return 0;
     }
 
     // hide submit button
     hide(document.getElementById("submit-button"));
 
-    if (checkCondition(data, current_question_id-1) == false)
-        return previousQuestion(current_question_id-1, data);
+    if (checkCondition(data, current_page_id-1) == false)
+        return previousPage(current_page_id-1, data);
 
-    // show previous question
-    show(document.getElementById("page_" + (current_question_id-1)));
+    // show previous Page
+    show(document.getElementById("page_" + (current_page_id-1)));
 
-    return current_question_id-1;
+    return current_page_id-1;
 }
 
 // show, hide
@@ -475,10 +472,10 @@ function enable(element) {
 }
 
 // toggle
-function toggleNextButton(current_question_id, data) {
+function toggleNextButton(current_page_id, data) {
     var nextButton = document.getElementById("next-button");
 
-    if (checkRequired(current_question_id, data))
+    if (checkRequired(current_page_id, data))
         enable(nextButton);
     else
         disable(nextButton);
