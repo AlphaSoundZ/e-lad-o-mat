@@ -64,7 +64,8 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
         document.getElementById("next-button").addEventListener("click", function() {
             question_id = nextQuestion(question_id, snapshot.val());
 
-            toggleNextButton(question_id, snapshot.val());
+            if (question_id < snapshot.val().length)
+                toggleNextButton(question_id, snapshot.val());
         });
 
         // when user clicks on bock button
@@ -77,14 +78,11 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
         // when user clicks on submit button
         document.getElementById("submit-button").addEventListener("click", function() {
             createResultPage(snapshot.val());
-
-            toggleSubmitButton(question_id, snapshot.val());
         });
 
         // check if required condition is met for current question
         document.addEventListener("change", function() {
             toggleNextButton(question_id, snapshot.val());
-            console.log("change");
         });
     }
 }).catch((error) => {
@@ -94,19 +92,19 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
 function draw(data) {
     for (var i = 0; i < data.length; i++) { // loop through questions
         // create question wrapper
-        var question_wrapper = document.createElement("div");
-        question_wrapper.className = "question_wrapper";
-        question_wrapper.id = "question_" + i;
-        wrapper.appendChild(question_wrapper);
+        var page_wrapper = document.createElement("div");
+        page_wrapper.className = "page_wrapper";
+        page_wrapper.id = "page_" + i;
+        wrapper.appendChild(page_wrapper);
 
         // hide question
-        hide(question_wrapper);
+        hide(page_wrapper);
 
 
         // create question
         var question = document.createElement("h3");
         question.innerHTML = data[i].question;
-        question_wrapper.appendChild(question);
+        page_wrapper.appendChild(question);
 
         // create answers
         for (var j = 0; j < data[i].answers.length; j++) { // loop through answers
@@ -136,12 +134,12 @@ function draw(data) {
                 }
             }
 
-            question_wrapper.appendChild(answer);
+            page_wrapper.appendChild(answer);
         }
 
         // check if question is based on condition --> hide
         if (data[i].condition != null)
-            hide(question_wrapper);
+            hide(page_wrapper);
     }
 }
 
@@ -369,13 +367,13 @@ function firstQuestion() {
     show(document.getElementById("next-button"));
 
     // show first question
-    show(document.getElementById("question_0"));
+    show(document.getElementById("page_0"));
 
 }
 
 function backToHome(current_question_id) {
     // hide current question
-    hide(document.getElementById("question_" + current_question_id));
+    hide(document.getElementById("page_" + current_question_id));
 
     // hide wrapper
     hide(wrapper);
@@ -389,8 +387,11 @@ function backToHome(current_question_id) {
     // hide submit button
     hide(document.getElementById("submit-button"));
 
+    // hide submit button
+    hide(document.getElementById("submit-button"));
+
     // hide first question
-    hide(document.getElementById("question_0"));
+    hide(document.getElementById("page_0"));
 
     // show static content
     show(document.getElementById("start-content"));
@@ -402,24 +403,32 @@ function backToHome(current_question_id) {
 function nextQuestion(current_question_id, data) {
     
     show(document.getElementById("back-button"));
-
-    if (document.getElementById("question_" + (current_question_id+1)) == null)
-        return current_question_id;
     
     // hide current question
-    hide(document.getElementById("question_" + current_question_id));
+    hide(document.getElementById("page_" + current_question_id));
+
+
+    if (current_question_id == data.length-1 || (checkCondition(data, current_question_id+1) == false && current_question_id+1 == data.length-1))
+    {
+        hide(document.getElementById("next-button"));
+        show(document.getElementById("submit-button"));
+        return current_question_id+1;
+    }
+
+    // hide submit button
+    hide(document.getElementById("submit-button"));
 
     if (checkCondition(data, current_question_id+1) == false)
         return nextQuestion(current_question_id+1, data);
 
-    if (current_question_id == data.legth-2)
+    if (current_question_id+1 == data.legth-1) // if next question is last question
     {
         hide(document.getElementById("next-button"));
         show(document.getElementById("submit-button"));
     }
 
     // show next question
-    show(document.getElementById("question_" + (current_question_id+1)));
+    show(document.getElementById("page_" + (current_question_id+1)));
 
     return current_question_id+1;
 }
@@ -428,7 +437,7 @@ function previousQuestion(current_question_id , data) {
     show(document.getElementById("next-button"));
 
     // hide current question
-    hide(document.getElementById("question_" + current_question_id));
+    hide(document.getElementById("page_" + current_question_id));
     
     if (current_question_id == 0)
     {
@@ -436,11 +445,14 @@ function previousQuestion(current_question_id , data) {
         return 0;
     }
 
+    // hide submit button
+    hide(document.getElementById("submit-button"));
+
     if (checkCondition(data, current_question_id-1) == false)
         return previousQuestion(current_question_id-1, data);
 
     // show previous question
-    show(document.getElementById("question_" + (current_question_id-1)));
+    show(document.getElementById("page_" + (current_question_id-1)));
 
     return current_question_id-1;
 }
@@ -464,20 +476,10 @@ function enable(element) {
 
 // toggle
 function toggleNextButton(current_question_id, data) {
-    console.log("toggleNextButton");
     var nextButton = document.getElementById("next-button");
 
     if (checkRequired(current_question_id, data))
         enable(nextButton);
     else
         disable(nextButton);
-}
-
-function toggleSubmitButton(current_question_id, data) {
-    var submitButton = document.getElementById("submit-button");
-
-    if (checkRequired(current_question_id, data))
-        enable(submitButton);
-    else
-        disable(submitButton);
 }

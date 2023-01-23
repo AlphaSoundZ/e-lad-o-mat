@@ -25,7 +25,7 @@
         }
       ],
       "question": "Frage 2",
-      "required": false
+      "required": true
     },
     {
       "answer_type": "multi",
