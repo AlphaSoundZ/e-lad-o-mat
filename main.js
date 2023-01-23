@@ -33,9 +33,11 @@ const wrapper = document.getElementById("wrapper");
 
 // Retrieve data from database
 const startTime = performance.now();
-var data = get(child(dbRef, `questions`)).then((snapshot) => {
+var data = get(dbRef).then((snapshot) => {
     // hide loading screen after 2 seconds (or after data is loaded)
     const endTime = performance.now();
+    const data = snapshot.val();
+    const questions = snapshot.val()["questions"];
     setTimeout(function() {
         const loading = document.querySelector(".loading-body");
         loading.classList.add("fade-out")
@@ -47,45 +49,45 @@ var data = get(child(dbRef, `questions`)).then((snapshot) => {
     } 
     else
     {
-        draw(snapshot.val());
-        checkKeyPress(snapshot.val());
+        draw(questions);
+        checkKeyPress(questions);
 
         var page_id = -1;
-        var pre_result_page_id = snapshot.val().length;
+        var pre_result_page_id = questions.length;
         var result_page_id = null;
 
         // when user clicks on start button
         document.getElementById("start-button").addEventListener("click", function() {
             page_id = 0;
-            firstQuestion(snapshot.val());
+            firstQuestion(questions);
 
-            toggleNextButton(page_id, snapshot.val());
+            toggleNextButton(page_id, questions);
         });
 
         // when user clicks on next button
         document.getElementById("next-button").addEventListener("click", function() {
-            page_id = nextPage(page_id, snapshot.val());
+            page_id = nextPage(page_id, questions);
 
-            if (page_id < snapshot.val().length)
-                toggleNextButton(page_id, snapshot.val());
+            if (page_id < questions.length)
+                toggleNextButton(page_id, questions);
         });
 
         // when user clicks on bock button
         document.getElementById("back-button").addEventListener("click", function() {
-            page_id = previousPage(page_id, snapshot.val());
+            page_id = previousPage(page_id, questions);
 
-            toggleNextButton(page_id, snapshot.val());
+            toggleNextButton(page_id, questions);
         });
 
         // when user clicks on submit button
         document.getElementById("submit-button").addEventListener("click", function() {
-            createResultPages(snapshot.val(), snapshot.val());
-            firstResultPage(pre_result_page_id, snapshot.val());
+            createResultPages(questions, questions);
+            firstResultPage(pre_result_page_id, questions);
         });
 
         // check if required condition is met for current question
         document.addEventListener("change", function() {
-            toggleNextButton(page_id, snapshot.val());
+            toggleNextButton(page_id, questions);
         });
     }
 }).catch((error) => {

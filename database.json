@@ -106,15 +106,6 @@
           ]
         }
       ]
-    },
-    {
-      "title": "Emfehlungstext 1",
-      "criteria": [
-        {
-          "answer": "00",
-          "invert": "false"
-        }
-      ]
     }
   ]
 }
