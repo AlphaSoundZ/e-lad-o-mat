@@ -77,13 +77,14 @@ var data = get(dbRef).then((snapshot) => {
         document.getElementById("back-button").addEventListener("click", function() {
             page_id = previousPage(page_id, questions);
 
-            toggleNextButton(page_id, questions);
+            if (page_id < questions.length)
+                toggleNextButton(page_id, questions);
         });
 
         // when user clicks on submit button
         document.getElementById("submit-button").addEventListener("click", function() {
             createResultPages(recommendations, questions);
-            firstResultPage(pre_result_page_id, questions);
+            page_id = firstResultPage(pre_result_page_id, questions);
         });
 
         // check if required condition is met for current question
@@ -100,7 +101,7 @@ function draw(data) {
     for (var i = 0; i < data.length; i++) { // loop through questions
         // create question wrapper
         var page_wrapper = document.createElement("div");
-        page_wrapper.className = "page_wrapper";
+        page_wrapper.className = "page_wrapper question";
         page_wrapper.id = "page_" + i;
         wrapper.appendChild(page_wrapper);
 
@@ -143,16 +144,12 @@ function draw(data) {
 
             page_wrapper.appendChild(answer);
         }
-
-        // check if question is based on condition --> hide
-        if (data[i].condition != null)
-            hide(page_wrapper);
     }
 
 
     // create pre-submit page
     var page_wrapper = document.createElement("div");
-    page_wrapper.className = "page_wrapper";
+    page_wrapper.className = "page_wrapper pre-submit";
     page_wrapper.id = "page_" + data.length;
     wrapper.appendChild(page_wrapper);
     // create hint
@@ -162,7 +159,6 @@ function draw(data) {
     page_wrapper.appendChild(p);
     hide(page_wrapper);
 }
-
 
 // Check Functions
 function isValidNumber(el, event, type, min = null, max = null) {
@@ -352,7 +348,7 @@ function createResultPage(answers, data, i) { // data = one recommendation, i = 
 
     // create page wrapper
     var page_wrapper = document.createElement("div");
-    page_wrapper.className = "page_wrapper";
+    page_wrapper.className = "page_wrapper result";
     page_wrapper.id = "page_" + id;
     wrapper.appendChild(page_wrapper);
 
@@ -363,8 +359,8 @@ function createResultPage(answers, data, i) { // data = one recommendation, i = 
     else
         recommendation_title.innerHTML = "Empfehlung " + i + ": " + data.title;
     page_wrapper.appendChild(recommendation_title);
+    hide(page_wrapper);
 }
-
 
 // Page Navigation Functions
 function backToHome(current_page_id) {
@@ -419,7 +415,9 @@ function firstResultPage(current_page_id, data) {
     hide(document.getElementById("back-button"));
     hide(document.getElementById("submit-button"));
     show(document.getElementById("next-button"));
-    show(document.getElementById("page_" + (data.length + 1)));
+    show(document.getElementById("page_" + (getFirstOfType("result"))));
+
+    return getFirstOfType("result");
 }
 
 function nextPage(current_page_id, data) {
@@ -427,7 +425,13 @@ function nextPage(current_page_id, data) {
     
     // hide current Page
     hide(document.getElementById("page_" + current_page_id));
-    if (current_page_id == data.length-1 || (checkCondition(data, current_page_id+1) == false && current_page_id == data.length-2)) // Pre-Submit Page
+
+    if (current_page_id+1 == getLastOfType("result"))
+    {
+        hide(document.getElementById("next-button"));
+    }
+
+    if (current_page_id == data.length-1 || (current_page_id == data.length-2 && checkCondition(data, current_page_id+1) == false)) // Pre-Submit Page
     {
         hide(document.getElementById("next-button"));
         show(document.getElementById("submit-button"));
@@ -452,7 +456,6 @@ function nextPage(current_page_id, data) {
 
 function previousPage(current_page_id , data) {
     show(document.getElementById("next-button"));
-
     // hide current Page
     hide(document.getElementById("page_" + current_page_id));
     
@@ -461,11 +464,11 @@ function previousPage(current_page_id , data) {
         backToHome(current_page_id);
         return 0;
     }
-    
-    if (current_page_id == data.length) // Pre-Submit Page
+
+    if (current_page_id-1 == getFirstOfType("result")) // result page
     {
-        // hide submit button
-        hide(document.getElementById("submit-button"));
+        firstResultPage(current_page_id, data);
+        return current_page_id-1;
     }
 
     if (current_page_id-1 < data.length && checkCondition(data, current_page_id-1) == false) // skip Page if condition is not met
@@ -509,12 +512,33 @@ function toggleNextButton(current_page_id, data) {
 
 
 
-function getLastPageId()
-{
+function getLastPageId() {
     var id = 0;
     while (document.getElementById("page_" + id) != null)
         id++;
     return id-1;
+}
+
+function getLastOfType(type) {
+    var elements = document.getElementsByClassName(type);
+    // check if empty
+    if (elements.length != 0)
+    {
+        var id = elements[document.getElementsByClassName(type).length-1].id;
+        return parseInt(id.substring(id.indexOf("_")+1));
+    }
+    return null;
+}
+
+function getFirstOfType(type) {
+
+    var elements = document.getElementsByClassName(type);
+    if (elements.length != 0)
+    {
+        var id = elements[0].id;
+        return parseInt(id.substring(id.indexOf("_")+1));
+    }
+    return null;
 }
 
 function getAnswers(data) {
