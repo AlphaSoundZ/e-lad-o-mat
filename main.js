@@ -130,16 +130,13 @@ function draw(data) {
                 answer.className = "checkbox";
                 answer.innerHTML = '<input type="checkbox" id="' + id + '" name="' + i + '" value="' + id + '"><label for="' + id + '" required>' + data[i].answers[j] + '</label>';
             }
-            else if (data[i].answer_type == "text")
+            else if (data[i].answer_type == "text") // integer, float, string
             {
-                if (data[i].answers[j].type == "integer" || data[i].answers[j].type == "float")
-                {
-                    var default_val = (data[i].answers[j].default != null) ? data[i].answers[j].default : "";
-                    var unit = data[i].answers[j].unit;
-                    
-                    answer.className = "text";
-                    answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
-                }
+                var default_val = (data[i].answers[j].default != null) ? data[i].answers[j].default : "";
+                var unit = (data[i].answers[j].unit) ? data[i].answers[j].unit : "";
+                
+                answer.className = "text";
+                answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
             }
 
             page_wrapper.appendChild(answer);
@@ -194,7 +191,7 @@ function checkKeyPress(data) {
             return;
         }
     
-        if (e.target.type == 'text')
+        if (e.target.type == 'number')
         {
             //split id into question and answer
             var id = e.target.id.split("");
@@ -321,22 +318,32 @@ function createResultPages(recommendations, questions) {
         createResultPage(answers, recommendations[i], i);
     }
 
-    // create Download button
-    var downloadBtn = document.createElement("button");
-    downloadBtn.innerHTML = "Download PDF";
-    document.body.appendChild(downloadBtn);
-
     // generate and download the PDF
+    var downloadBtn = document.getElementById("print-button");
+
     downloadBtn.addEventListener('click', function() {
         var pdf = new jsPDF();
 
-        // add the rest of the content
-        for (var i = questions.length+1; i <= getLastPageId(); i++)
+        // create temp div to store the content
+        var temp = document.createElement("div");
+        temp.id = "temp";
+        document.body.appendChild(temp);
+
+        
+        // add the content to the temp div
+        for (var i = getFirstOfType("result"), last = getLastOfType("result"); i <= last; i++)
         {
             var recommendation_wrapper = document.getElementById("page_" + i);
-            pdf.fromHTML(recommendation_wrapper, 15, 15);
+            // create duplicate of recommendation wrapper
+            var recommendation_wrapper_clone = recommendation_wrapper.cloneNode(true);
+            temp.appendChild(recommendation_wrapper_clone);
         }
-            
+
+        // add the content to the PDF
+        pdf.fromHTML(temp);
+
+        // remove the temp div
+        document.body.removeChild(temp);
         
         // Save the PDF
         pdf.save("Empfehlung.pdf");
@@ -351,6 +358,8 @@ function createResultPage(answers, data, i) { // data = one recommendation, i = 
     page_wrapper.className = "page_wrapper result";
     page_wrapper.id = "page_" + id;
     wrapper.appendChild(page_wrapper);
+    hide(page_wrapper);
+
 
     // create recommendation title
     var recommendation_title = document.createElement("h2");
@@ -359,7 +368,43 @@ function createResultPage(answers, data, i) { // data = one recommendation, i = 
     else
         recommendation_title.innerHTML = "Empfehlung " + i + ": " + data.title;
     page_wrapper.appendChild(recommendation_title);
-    hide(page_wrapper);
+
+    // create paragraphs
+    if (data.paragraphs == null)
+        return;
+    for (var i = 0; i < data.paragraphs.length; i++) // i = nth paragraph
+    {
+        // create paragraph
+        var paragraph = document.createElement("p");
+
+        var i_paragraph = data.paragraphs[i];
+        for (var j = 0; j < i_paragraph["text"].length; j++) // j = nth text element in one paragraph
+        {
+            if (i_paragraph["text"][j].type == "var")
+            {
+                var x = i_paragraph["text"][j].id[0];
+                var y = i_paragraph["text"][j].id[1];
+                var text = answers[x][y];
+            }
+            else if (i_paragraph["text"][j].type == "string")
+            {
+                var text = i_paragraph["text"][j].string;
+            }
+            paragraph.innerHTML += text;
+            page_wrapper.appendChild(paragraph);
+        }
+
+
+        // styling
+        if (i_paragraph["type"] == "text")
+        {
+            paragraph.className = "text";
+        }
+        else if (i_paragraph["type"] == "hint")
+        {
+            paragraph.className = "hint";
+        }
+    }
 }
 
 // Page Navigation Functions
@@ -375,9 +420,6 @@ function backToHome(current_page_id) {
 
     // hide next button
     hide(document.getElementById("next-button"));
-
-    // hide submit button
-    hide(document.getElementById("submit-button"));
 
     // hide submit button
     hide(document.getElementById("submit-button"));
@@ -429,6 +471,7 @@ function nextPage(current_page_id, data) {
     if (current_page_id+1 == getLastOfType("result"))
     {
         hide(document.getElementById("next-button"));
+        show(document.getElementById("print-button"));
     }
 
     if (current_page_id == data.length-1 || (current_page_id == data.length-2 && checkCondition(data, current_page_id+1) == false)) // Pre-Submit Page
@@ -436,12 +479,15 @@ function nextPage(current_page_id, data) {
         hide(document.getElementById("next-button"));
         show(document.getElementById("submit-button"));
     }
-    else // normal Page
+    else
     {
         // hide submit button
         hide(document.getElementById("submit-button"));
     }
 
+    if (current_page_id+1 == getLastOfType("result"))
+        show(document.getElementById("print-button"));
+    
     if (current_page_id+1 < data.length && checkCondition(data, current_page_id+1) == false) // skip Page if condition is not met
     {
         // try the next Page
@@ -464,6 +510,9 @@ function previousPage(current_page_id , data) {
         backToHome(current_page_id);
         return 0;
     }
+
+    if (current_page_id == getLastOfType("result")) // last page was last result page
+        hide(document.getElementById("print-button"));
 
     if (current_page_id-1 == getFirstOfType("result")) // result page
     {

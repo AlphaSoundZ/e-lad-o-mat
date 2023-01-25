@@ -53,7 +53,7 @@
       "required": false
     },
     {
-      "answer_type": "text",
+      "answer_type": "number",
       "answers": [
         {
           "type": "integer",
