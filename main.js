@@ -6,8 +6,6 @@ loadingAnimationFix();
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
 import { getDatabase, ref, set, child, get } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -315,7 +313,7 @@ function createResultPages(recommendations, questions) {
 
     for (var i = 0; i < recommendations.length; i++)
     {
-        createResultPage(answers, recommendations[i], i);
+        createResultPage(answers, recommendations[i], questions, i);
     }
 
     // generate and download the PDF
@@ -350,7 +348,7 @@ function createResultPages(recommendations, questions) {
     });
 }
 
-function createResultPage(answers, data, i) { // data = one recommendation, i = nth recommendation
+function createResultPage(answers, recommendation, questions, i) { // recommendation = one recommendation, i = nth recommendation
     var id = getLastPageId() + 1;
 
     // create page wrapper
@@ -364,31 +362,84 @@ function createResultPage(answers, data, i) { // data = one recommendation, i = 
     // create recommendation title
     var recommendation_title = document.createElement("h2");
     if (i == 0) // only the first recommendation has no number
-        recommendation_title.innerHTML = data.title;
+        recommendation_title.innerHTML = recommendation.title;
     else
-        recommendation_title.innerHTML = "Empfehlung " + i + ": " + data.title;
+        recommendation_title.innerHTML = "Empfehlung " + i + ": " + recommendation.title;
     page_wrapper.appendChild(recommendation_title);
 
     // create paragraphs
-    if (data.paragraphs == null)
+    if (recommendation.paragraphs == null)
         return;
-    for (var i = 0; i < data.paragraphs.length; i++) // i = nth paragraph
-    {
+    
+    for (var i = 0; i < recommendation.paragraphs.length; i++) // i = nth paragraph
+    {        
         // create paragraph
         var paragraph = document.createElement("p");
-
-        var i_paragraph = data.paragraphs[i];
+        
+        var i_paragraph = recommendation.paragraphs[i];
         for (var j = 0; j < i_paragraph["text"].length; j++) // j = nth text element in one paragraph
         {
-            if (i_paragraph["text"][j].type == "var")
+            var type = i_paragraph["text"][j].type;
+
+            if (type == "var") // variable
             {
                 var x = i_paragraph["text"][j].id[0];
                 var y = i_paragraph["text"][j].id[1];
                 var text = answers[x][y];
             }
-            else if (i_paragraph["text"][j].type == "string")
+            else if (type == "string") // text
             {
                 var text = i_paragraph["text"][j].string;
+            }
+            else if (type == "array")
+            {
+                var question = i_paragraph["text"][j].question;
+                if (questions[question].answer_type == "single")
+                {
+                    for (var k = 0; k < answers[question].length; k++) // k = nth answer
+                    {
+                        if (answers[question][k] == true) // if the answer is true
+                        {
+                            if (i_paragraph["text"][j].alias != null) // if there is are aliases
+                            {
+                                text = i_paragraph["text"][j].array[k];
+                            }
+                            else
+                            {
+                                text = questions[question].answers[k];
+                            }
+                            break;
+                        }
+                    }
+                }
+                else if (questions[question].answer_type == "multi")
+                {
+                    var text = "";
+                    for (var k = 0; k < answers[question].length; k++)
+                    {
+                        if (answers[question][k] == true) // if the answer is true
+                        {
+                            if (i_paragraph["text"][j].alias != null) // if there is are aliases
+                            {
+                                text += i_paragraph["text"][j].array[k];
+                            }
+                            else
+                            {
+                                text += questions[question].answers[k];
+                            }
+                            text += i_paragraph["text"][j].separator;
+                        }
+                    }
+                    text = text.substring(0, text.length - i_paragraph["text"][j].separator.length);
+                }
+            }
+            else if (type == "br") // line break
+            {
+                var text = "<br>";
+            }
+            else if (type == "hr") // horizontal line
+            {
+                var text = "<hr>";
             }
             paragraph.innerHTML += text;
             page_wrapper.appendChild(paragraph);
