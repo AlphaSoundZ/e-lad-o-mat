@@ -558,8 +558,15 @@ function firstResultPage(current_page_id, data) {
     hide(document.getElementById("page_" + current_page_id));
     hide(document.getElementById("back-button"));
     hide(document.getElementById("submit-button"));
+
     show(document.getElementById("next-button"));
     show(document.getElementById("page_" + (getFirstOfType("result"))));
+    
+    if (getFirstOfType("result") == getLastOfType("result"))
+    {
+        show(document.getElementById("print-button"))
+        hide(document.getElementById("next-button"));
+    }
 
     return getFirstOfType("result");
 }
