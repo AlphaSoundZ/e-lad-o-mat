@@ -301,6 +301,46 @@ function loadingAnimationFix() {
     document.getElementById("loading-body").style.width = (html.clientWidth - scrollbarWidth) + "px";
 }
 
+function checkCriterias(criterias, questions, answers) {
+    // check criterias
+    for (var i = 0; i < criterias.length; i++) // or condition
+    {
+        var result = false;
+        for (var j = 0; j < criterias[i].length; j++) // and condition
+        {
+            // check condition
+            var condition_id = criterias[i][j].id;
+            var operator = criterias[i][j].operator;
+
+            if (questions[condition_id[0]].answer_type == "text")
+            { // convert value to bool
+                var answer = (answers[condition_id[0]][condition_id[1]] == "") ? false : true;
+            }
+            else
+            {
+                var answer = answers[condition_id[0]][condition_id[1]];
+            }
+
+            if ((operator == "==" && answer == true) || (operator == "!=" && answer == false))
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+                break;
+            }
+        }
+
+        if (result == true)
+            break;
+    }
+
+    if (result == false)
+        return false;
+    return true;
+}
+
 
 // Result Functions
 
@@ -351,6 +391,12 @@ function createResultPages(recommendations, questions) {
 function createResultPage(answers, recommendation, questions, i) { // recommendation = one recommendation, i = nth recommendation
     var id = getLastPageId() + 1;
 
+    // check for criterias
+    var criterias = (recommendation.criterias == null) ? [] : recommendation.criterias;
+
+    if (criterias.length != 0 && checkCriterias(criterias, questions, answers) == false)
+        return false;
+
     // create page wrapper
     var page_wrapper = document.createElement("div");
     page_wrapper.className = "page_wrapper result";
@@ -369,10 +415,13 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
 
     // create paragraphs
     if (recommendation.paragraphs == null)
-        return;
+        return false;
     
     for (var i = 0; i < recommendation.paragraphs.length; i++) // i = nth paragraph
-    {        
+    {
+        var criterias = (recommendation.paragraphs[i].criterias == null) ? [] : recommendation.paragraphs[i].criterias;
+        if (criterias.length != 0 && checkCriterias(criterias, questions, answers) == false)
+            continue;
         // create paragraph
         var paragraph = document.createElement("p");
         
@@ -400,7 +449,7 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
                     {
                         if (answers[question][k] == true) // if the answer is true
                         {
-                            if (i_paragraph["text"][j].alias != null) // if there is are aliases
+                            if (i_paragraph["text"][j].aliases != null) // if there is are aliases
                             {
                                 text = i_paragraph["text"][j].array[k];
                             }
@@ -419,9 +468,9 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
                     {
                         if (answers[question][k] == true) // if the answer is true
                         {
-                            if (i_paragraph["text"][j].alias != null) // if there is are aliases
+                            if (i_paragraph["text"][j].aliases != null) // if there is are aliases
                             {
-                                text += i_paragraph["text"][j].array[k];
+                                text += i_paragraph["text"][j].aliases[k];
                             }
                             else
                             {
@@ -456,6 +505,8 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
             paragraph.className = "hint";
         }
     }
+
+    return true;
 }
 
 // Page Navigation Functions
