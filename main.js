@@ -130,11 +130,21 @@ function draw(data) {
             }
             else if (data[i].answer_type == "text") // integer, float, string
             {
+                var label = (data[i].answers[j].label) ? data[i].answers[j].label : "";
+                if (label != "")
+                {
+                    var label_el = document.createElement("label");
+                    label_el.innerHTML = label;
+                    label_el.setAttribute("for", id);
+                    answer.appendChild(label_el);
+                }
+                
                 var default_val = (data[i].answers[j].default != null) ? data[i].answers[j].default : "";
                 var unit = (data[i].answers[j].unit) ? data[i].answers[j].unit : "";
+                var placeholder = (data[i].answers[j].placeholder) ? data[i].answers[j].placeholder : "";
                 
                 answer.className = "text";
-                answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
+                answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" placeholder="' + placeholder + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
             }
 
             page_wrapper.appendChild(answer);
@@ -189,7 +199,7 @@ function checkKeyPress(data) {
             return;
         }
     
-        if (e.target.type == 'number')
+        if (e.target.type == "number")
         {
             //split id into question and answer
             var id = e.target.id.split("");
