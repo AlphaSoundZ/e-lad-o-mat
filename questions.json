@@ -64,7 +64,7 @@
       "required": true
     },
     {
-      "answer_type": "number",
+      "answer_type": "text",
       "answers": [
         {
           "type": "integer"
@@ -114,7 +114,7 @@
       "required": false
     },
     {
-      "answer_type": "number",
+      "answer_type": "text",
       "answers": [
         {
           "type": "float"
@@ -125,7 +125,7 @@
       "required": true
     },
     {
-      "answer_type": "number",
+      "answer_type": "text",
       "answers": [
         {
           "type": "float"
@@ -145,7 +145,7 @@
       "required": false
     },
     {
-      "answer_type": "number",
+      "answer_type": "text",
       "answers": [
         {
           "type": "float"
@@ -212,7 +212,7 @@
       "required": true
     },
     {
-      "answer_type": "number",
+      "answer_type": "text",
       "answers": [
         {
           "type": "integer"
@@ -231,7 +231,7 @@
       "required": true
     },
     {
-      "answer_type": "number",
+      "answer_type": "text",
       "answers": [
         {
           "type": "integer"
@@ -329,7 +329,7 @@
       "required": true
     },
     {
-      "answer_type": "number",
+      "answer_type": "text",
       "answers": [
         {
           "type": "integer"

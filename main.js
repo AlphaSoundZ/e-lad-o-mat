@@ -96,6 +96,7 @@ var data = get(dbRef).then((snapshot) => {
 
 // Page Generation Functions
 function draw(data) {
+    var index = 0;
     for (var i = 0; i < data.length; i++) { // loop through questions
         // create question wrapper
         var page_wrapper = document.createElement("div");
@@ -116,7 +117,9 @@ function draw(data) {
         for (var j = 0; j < data[i].answers.length; j++) { // loop through answers
             // types: checkbox, radio, text
             var answer = document.createElement("div");
-            var id = i.toString() + j.toString();
+            var id = index;
+            answer.id = id;
+            index++;
 
             if (data[i].answer_type == "single")
             {
@@ -199,14 +202,18 @@ function checkKeyPress(data) {
             return;
         }
     
-        if (e.target.type == "number")
+        if (e.target.type == "text")
         {
             //split id into question and answer
-            var id = e.target.id.split("");
+            var id = getDataId(e.target.id, data);
             var input_type = data[id[0]].answers[id[1]].type;
             var min = data[id[0]].answers[id[1]].min;
             var max = data[id[0]].answers[id[1]].max;
-    
+
+            if (input_type != "integer" || input_type != "float")
+            {
+                return;
+            }
             if (!isValidNumber(e.target, e, input_type, min, max))
             {
                 console.log("Invalid input");
@@ -224,9 +231,7 @@ function checkAnswerChange(data) {
         }
         
         //split id into question and answer
-        var id = e.target.id.split("");
-
-        
+        var id = getDataId(e.target.id, data);
         if (e.target.type == 'radio' || e.target.type == 'checkbox')
         {
             for (var i = Object.keys(data)[0]; i < Object.keys(data)[0]+data.length; i++) // loop through questions
@@ -257,9 +262,9 @@ function checkRequired(current_page_id, data) {
     {
         for (var i = 0; i < data[current_page_id].answers.length; i++)
         {
-            if (data[current_page_id].answer_type == "text" && document.getElementById(current_page_id.toString() + i).value == "") // every textbox must be filled
+            if (data[current_page_id].answer_type == "text" && document.getElementById(getFirstQuestionIndexOfPage(current_page_id, data) + i).value == "") // every textbox must be filled
                 return false;
-            else if ((data[current_page_id].answer_type == "single" || data[current_page_id].answer_type == "multi") && document.getElementById(current_page_id.toString() + i).checked == true) // at least one checkbox must be checked
+            else if ((data[current_page_id].answer_type == "single" || data[current_page_id].answer_type == "multi") && document.getElementById(getFirstQuestionIndexOfPage(current_page_id, data) + i).checked == true) // at least one checkbox must be checked
                 return true;
         }
 
@@ -720,7 +725,7 @@ function getAnswers(data) {
         answers[i] = []
         for (var j = 0; j < data[i].answers.length; j++)
         {
-            var answer = document.getElementById(i.toString() + j);
+            var answer = document.getElementById(getFirstQuestionIndexOfPage(i, data) + j);
 
             if (data[i].answer_type == "single" || data[i].answer_type == "multi")
                 answers[i][j] = answer.checked;
@@ -729,4 +734,26 @@ function getAnswers(data) {
         }
     }
     return answers;
+}
+
+function getFirstQuestionIndexOfPage(page_id, data) {
+    var index = 0;
+    for (var i = 0; i < page_id; i++)
+        index += data[i].answers.length;
+    return index;
+}
+
+function getDataId(id, data) {
+    var index = 0;
+    var result = [];
+    for (var i = 0; i < data.length; i++)
+    { // go through questions
+        for (var j = 0; j < data[i].answers.length; j++)
+        { // go through answers
+            if (index == id)
+                return [i, j];
+            index++;
+        }
+    }
+    return null;
 }
