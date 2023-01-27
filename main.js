@@ -743,7 +743,7 @@ function getFirstQuestionIndexOfPage(page_id, data) {
     return index;
 }
 
-function getDataId(id, data) {
+function getDataId(id, data) { // Convert id of answer div to [question, answer] index
     var index = 0;
     var result = [];
     for (var i = 0; i < data.length; i++)
