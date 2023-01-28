@@ -160,7 +160,7 @@ body {
     padding: 0 20px;
 
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     max-width: 808px;
