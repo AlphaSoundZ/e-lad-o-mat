@@ -638,6 +638,9 @@ function previousPage(current_page_id , data) {
         return 0;
     }
 
+    if (current_page_id == getLastOfType("pre-submit")) // previous page is pre-submit page
+        hide(document.getElementById("submit-button"));
+
     if (current_page_id == getLastOfType("result")) // last page was last result page
         hide(document.getElementById("print-button"));
 
@@ -651,11 +654,6 @@ function previousPage(current_page_id , data) {
     {
         // try the previous Page
         return previousPage(current_page_id-1, data);
-    }
-
-    if (current_page_id == getLastOfType("pre-submit")) // previous page is pre-submit page
-    {
-        hide(document.getElementById("submit-button"));
     }
 
     // show previous Page
