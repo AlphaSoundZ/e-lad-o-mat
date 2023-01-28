@@ -107,11 +107,19 @@ function draw(data) {
         // hide question
         hide(page_wrapper);
 
-
-        // create question
+        // create title
         var question = document.createElement("h3");
         question.innerHTML = data[i].question;
         page_wrapper.appendChild(question);
+
+        // create hint
+        if (data[i].hint != null)
+        {
+            var hint = document.createElement("p");
+            hint.innerHTML = data[i].hint;
+            hint.className = "hint";
+            page_wrapper.appendChild(hint);
+        }
 
         // create answers
         for (var j = 0; j < data[i].answers.length; j++) { // loop through answers
@@ -159,7 +167,7 @@ function draw(data) {
     page_wrapper.className = "page_wrapper pre-submit";
     page_wrapper.id = "page_" + data.length;
     wrapper.appendChild(page_wrapper);
-    // create hint
+
     var p = document.createElement("p");
     p.innerHTML = "Aus den angegebenen Parametern sowie den gewünschten Funktionen der Ladeinfrastruktur ergeben sich folgende Empfehlungen für den Ausbau:";
     p.className = "hint pre-submit-text";
