@@ -5,19 +5,19 @@
       "answers": [
         {
           "type": "string",
-          "placeholder": "Straße, Nr.: "
-        },
-        {
-          "type": "integer",
-          "placeholder": "PLZ: "
+          "placeholder": "Straße, Nr."
         },
         {
           "type": "string",
-          "placeholder": "Stadt: "
+          "placeholder": "PLZ"
         },
         {
           "type": "string",
-          "placeholder": "Bundesland: "
+          "placeholder": "Stadt"
+        },
+        {
+          "type": "string",
+          "placeholder": "Bundesland"
         }
       ],
       "question": "Standort der Parkbauten",
@@ -262,7 +262,9 @@
           {
             "id": ["16", "0"],
             "operator": "!="
-          },
+          }
+        ],
+        [
           {
             "id": ["17", "0"],
             "operator": "!="
