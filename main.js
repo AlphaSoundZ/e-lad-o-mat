@@ -137,17 +137,16 @@ function draw(data) {
                 if (label != "")
                 {
                     var label_el = document.createElement("label");
-                    label_el.innerHTML = label;
                     label_el.setAttribute("for", id);
+                    label_el.innerHTML = label;
                     answer.appendChild(label_el);
                 }
                 
                 var default_val = (data[i].answers[j].default != null) ? data[i].answers[j].default : "";
-                var unit = (data[i].answers[j].unit) ? data[i].answers[j].unit : "";
                 var placeholder = (data[i].answers[j].placeholder) ? data[i].answers[j].placeholder : "";
                 
                 answer.className = "text";
-                answer.innerHTML = '<input type="text" id="' + id + '" name="' + i + '" placeholder="' + placeholder + '" value="' + default_val + '"><label for="' + id + '"> ' + unit + '</label>';
+                answer.innerHTML += '<input type="text" id="' + id + '" name="' + i + '" placeholder="' + placeholder + '" value="' + default_val + '">';
             }
 
             page_wrapper.appendChild(answer);
@@ -210,13 +209,12 @@ function checkKeyPress(data) {
             var min = data[id[0]].answers[id[1]].min;
             var max = data[id[0]].answers[id[1]].max;
 
-            if (input_type != "integer" || input_type != "float")
+            if (input_type == "string")
             {
                 return;
             }
             if (!isValidNumber(e.target, e, input_type, min, max))
             {
-                console.log("Invalid input");
                 e.preventDefault();
                 return false;
             }
@@ -224,47 +222,15 @@ function checkKeyPress(data) {
     });
 }
 
-function checkAnswerChange(data) {
-    return wrapper.addEventListener('change', function(e) {
-        if (e.target.nodeName !== 'INPUT') {
-            return;
-        }
-        
-        //split id into question and answer
-        var id = getDataId(e.target.id, data);
-        if (e.target.type == 'radio' || e.target.type == 'checkbox')
-        {
-            for (var i = Object.keys(data)[0]; i < Object.keys(data)[0]+data.length; i++) // loop through questions
-            {
-                var i_condition = data[i].condition;
-                var found = true;
-                if (i_condition)
-                {
-                    i_condition.forEach(function(condition) {
-                        if (document.getElementById(condition).checked !== true)
-                            found = false;
-                    });
-                    if (found) // if question has condition with id of event target
-                    {
-                        return i;
-                    }
-                    else
-                        return -1;
-                }
-            }
-        }
-    });
-}
-
-function checkRequired(current_page_id, data) {
+function checkRequired(current_page_id, data) { // return true if requirements are met
     var required = data[current_page_id].required;
     if (required)
     {
         for (var i = 0; i < data[current_page_id].answers.length; i++)
         {
-            if (data[current_page_id].answer_type == "text" && document.getElementById(getFirstQuestionIndexOfPage(current_page_id, data) + i).value == "") // every textbox must be filled
+            if (data[current_page_id].answer_type == "text" && document.getElementById(getFirstQuestionIndexOfPage(current_page_id, data) + i).querySelector("input").value == "") // every textbox must be filled
                 return false;
-            else if ((data[current_page_id].answer_type == "single" || data[current_page_id].answer_type == "multi") && document.getElementById(getFirstQuestionIndexOfPage(current_page_id, data) + i).checked == true) // at least one checkbox must be checked
+            else if ((data[current_page_id].answer_type == "single" || data[current_page_id].answer_type == "multi") && document.getElementById(getFirstQuestionIndexOfPage(current_page_id, data) + i).querySelector("input").checked == true) // at least one checkbox must be checked
                 return true;
         }
 
@@ -275,18 +241,47 @@ function checkRequired(current_page_id, data) {
     return true;
 }
 
-function checkCondition(data, page_id) {
-    var condition = checkAnswerChange(data);
-
+function checkCriterias(questions, page_id) { // return true if condition is met and the question should be shown
     // check if question is based on condition
-    if (data[page_id].condition == null)
+    if (questions[page_id].criterias == null)
         return true;
-    
-    for (var i = 0; i < data[page_id].condition.length; i++)
+
+    var criterias = questions[page_id].criterias;
+    console.log(criterias);
+    for (var j = 0; j < criterias.length; j++) // or condition
     {
-        if (document.getElementById(data[page_id].condition[i]).checked != true)
-            return false;
+        var result = false;
+        for (var k = 0; k < criterias[j].length; k++) // and condition
+        {
+            // check condition
+            var condition_id = criterias[j][k].id;
+            var operator = criterias[j][k].operator;
+            var question_id = getFirstQuestionIndexOfPage(condition_id[0], questions) + parseInt(condition_id[1]);
+
+            if (questions[condition_id[0]].answers[condition_id[1]].answer_type == "text")
+            { // convert value to bool
+                var answer = (document.getElementById(question_id).querySelector("input").value == "") ? false : true;
+            }
+            else
+            {
+                var answer = document.getElementById(question_id).querySelector("input").checked;
+            }
+
+            if ((operator == "==" && answer == true) || (operator == "!=" && answer == false))
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+                break;
+            }
+        }
+
+        if (result == true)
+            break;
     }
+    return result;
 }
 
 function loadingAnimationFix() {
@@ -316,7 +311,7 @@ function loadingAnimationFix() {
     document.getElementById("loading-body").style.width = (html.clientWidth - scrollbarWidth) + "px";
 }
 
-function checkCriterias(criterias, questions, answers) {
+function checkResultCriterias(criterias, questions, answers) {
     // check criterias
     for (var i = 0; i < criterias.length; i++) // or condition
     {
@@ -409,7 +404,7 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
     // check for criterias
     var criterias = (recommendation.criterias == null) ? [] : recommendation.criterias;
 
-    if (criterias.length != 0 && checkCriterias(criterias, questions, answers) == false)
+    if (criterias.length != 0 && checkResultCriterias(criterias, questions, answers) == false)
         return false;
 
     // create page wrapper
@@ -435,7 +430,7 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
     for (var i = 0; i < recommendation.paragraphs.length; i++) // i = nth paragraph
     {
         var criterias = (recommendation.paragraphs[i].criterias == null) ? [] : recommendation.paragraphs[i].criterias;
-        if (criterias.length != 0 && checkCriterias(criterias, questions, answers) == false)
+        if (criterias.length != 0 && checkResultCriterias(criterias, questions, answers) == false)
             continue;
         // create paragraph
         var paragraph = document.createElement("p");
@@ -598,7 +593,7 @@ function nextPage(current_page_id, data) {
         show(document.getElementById("print-button"));
     }
 
-    if (current_page_id == data.length-1 || (current_page_id == data.length-2 && checkCondition(data, current_page_id+1) == false)) // Pre-Submit Page
+    if (current_page_id == data.length-1 || (current_page_id == data.length-2 && checkCriterias(data, current_page_id+1) == false)) // Pre-Submit Page
     {
         hide(document.getElementById("next-button"));
         show(document.getElementById("submit-button"));
@@ -612,7 +607,7 @@ function nextPage(current_page_id, data) {
     if (current_page_id+1 == getLastOfType("result"))
         show(document.getElementById("print-button"));
     
-    if (current_page_id+1 < data.length && checkCondition(data, current_page_id+1) == false) // skip Page if condition is not met
+    if (current_page_id+1 < data.length && checkCriterias(data, current_page_id+1) == false) // skip Page if condition is not met
     {
         // try the next Page
         return nextPage(current_page_id+1, data);
@@ -644,7 +639,7 @@ function previousPage(current_page_id , data) {
         return current_page_id-1;
     }
 
-    if (current_page_id-1 < data.length && checkCondition(data, current_page_id-1) == false) // skip Page if condition is not met
+    if (current_page_id-1 < data.length && checkCriterias(data, current_page_id-1) == false) // skip Page if condition is not met
     {
         // try the previous Page
         return previousPage(current_page_id-1, data);
