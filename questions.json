@@ -27,7 +27,7 @@
       "answer_type": "single",
       "answers": [
         "< 100 m² | Kleingarage",
-        "> 100 m² & < 1.000 m² | Mittelgarage",
+        "> 100 m² - < 1.000 m² | Mittelgarage",
         "> 1.000 m² | Großgarage"
       ],
       "hint": "Hinweis: Die Nutzfläche einer Garage ist die Summe aller miteinander verbundenen Flächen der Garagenstellplätze und der Verkehrsflächen",
