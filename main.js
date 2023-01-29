@@ -476,6 +476,9 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
         
         // create paragraph
         var paragraph = document.createElement("p");
+
+        // styling
+        paragraph.className = i_paragraph["type"]; // text or hint
         
         for (var j = 0; j < i_paragraph["text"].length; j++) // j = nth text element in one paragraph
         {
@@ -485,7 +488,6 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
             if (text_criterias.length != 0 && checkResultCriterias(text_criterias, questions, answers) == false)
                 continue;
 
-            console.log(answers);
             if (type == "var") // variable
             {
                 if (i_paragraph["text"][j].question != null) // question
@@ -536,6 +538,8 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
                     var y = i_paragraph["text"][j].id[1];
                     var text = answers[x][y];
                 }
+
+                // style
             }
             else if (type == "string") // text
             {
@@ -552,10 +556,6 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
             paragraph.innerHTML += text;
             page_wrapper.appendChild(paragraph);
         }
-
-
-        // styling
-        paragraph.className = i_paragraph["type"]; // text or hint
     }
 
     return true;
