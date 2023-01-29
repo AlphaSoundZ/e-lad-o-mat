@@ -1,71 +1,170 @@
 {
   "questions": [
     {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "string",
+          "placeholder": "Straße, Nr."
+        },
+        {
+          "type": "string",
+          "placeholder": "PLZ"
+        },
+        {
+          "type": "string",
+          "placeholder": "Stadt"
+        },
+        {
+          "type": "string",
+          "placeholder": "Bundesland"
+        }
+      ],
+      "question": "Standort der Parkbauten",
+      "required": true
+    },
+    {
       "answer_type": "single",
       "answers": [
-        "Bedingte Antwort 1",
-        "Antwort 1",
-        "Antwort 2",
-        "Antwort 3"
+        "< 100 m² | Kleingarage",
+        "> 100 m² - < 1.000 m² | Mittelgarage",
+        "> 1.000 m² | Großgarage"
       ],
-      "question": "Frage 1",
-      "hint": "Hinweis:",
+      "hint": "Hinweis: Die Nutzfläche einer Garage ist die Summe aller miteinander verbundenen Flächen der Garagenstellplätze und der Verkehrsflächen",
+      "question": "Größe der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Oberirdische Parkbauten",
+        "Unterirdische Parkbauten",
+        "Gemischte Parkbauten"
+      ],
+      "question": "Typ der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Offene Bauweise",
+        "Geschlossene Bauweise"
+      ],
+      "hint": "Hinweis: offene Garagen sind Garagen die unmittelbar ins Freie führende unverschließbare Öffnungen in einer Größe von insgesamt mindestens einem Drittel der Gesamtfläche der Umfassungswände haben. Dabei dürfen mindestens zwei sich gegenüberliegende Umfassungswände, mit den ins Freie führenden Öffnungen nicht mehr als 70 m voneinander entfernt sein und müssen eine ständige Querlüftung aufweisen.",
+      "question": "Bauweise der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Singuläre Parkbauten",
+        "Integrierte Parkbauten"
+      ],
+      "question": "Bauweise der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "integer"
+        }
+      ],
+      "question": "Anzahl der Stellplätze",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Öffentlich",
+        "Halböffentlich",
+        "Privat"
+      ],
+      "hint": "Hinweis: Halböffentlich: Eingeschränkte Zugänglichkeit (z.B. Öffnungszeiten / bestimmte Nutzergruppe)",
+      "question": "Zugänglichkeit",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Technikraum",
+        "Schaltschrank"
+      ],
+      "question": "Vorhandene Gebäudetechnik",
+      "required": true
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "Brandmeldeanlage",
+        "Löschtechnik",
+        "Lüftung und Entrauchung"
+      ],
+      "question": "Vorhandener Brandschutz",
+      "required": false
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Niederspannungsnetz",
+        "Mittelspannungsnetz",
+        "Hochspannungsnetz"
+      ],
+      "question": "Aktueller Netzanschluss",
       "required": false
     },
     {
       "answer_type": "text",
       "answers": [
         {
-          "type": "float",
-          "unit": "Prozent"
-        },
-        { 
-          "type": "integer",
-          "unit": "Kg"
+          "type": "float"
         }
       ],
-      "question": "Frage 2",
-      "required": false
+      "hint": "Hinweis: Angaben in Kilo Volt-Ampere",
+      "question": "Aktueller Strombedarf (kVA)",
+      "required": true
     },
     {
-      "answer_type": "multi",
-      "answers": [
-        "Antwort 1",
-        "Bedingte Antwort 2",
-        "Antwort 3",
-        "Antwort 4"
-      ],
-      "question": "Frage 3",
-      "required": false
-    },
-    {
-      "answer_type": "multi",
-      "answers": [
-        "Antwort 1",
-        "Antwort 2",
-        "Antwort 3"
-      ],
-      "condition": [
-        "00",
-        "21"
-      ],
-      "question": "Frage 4",
-      "required": false
-    },
-    {
-      "answer_type": "number",
+      "answer_type": "text",
       "answers": [
         {
-          "type": "integer",
-          "min": 0,
-          "max": 100,
-          "unit": "Euro"
+          "type": "float"
         }
       ],
-      "question": "Frage 5 (0-100)",
+      "hint": "Hinweis: Angaben in Kilo Volt-Ampere",
+      "question": "Aktuelle Anschlussleistung (kVA)",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "PV-Module für regenerative Energie vorhanden?",
       "required": false
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "float"
+        }
+      ],
+      "hint": "Hinweis: Angabe der Nennleistung",
+      "question": "Vorhandene regenerative Energie (kWp)",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["12", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
     }
   ],
+  
   "recommendations": [
     {
       "title": "Daten der Parkbauten:",
@@ -75,16 +174,14 @@
           "text": [
             {
               "type": "var",
-              "id": "00"
-            }
-          ]
-        },
-        {
-          "type" : "text",
-          "text": [
+              "id": ["0", "0"]
+            },
+            {
+              "type": "br"
+            },
             {
               "type": "var",
-              "id": "01"
+              "id": ["0", "1"]
             },
             {
               "type": "string",
@@ -92,7 +189,14 @@
             },
             {
               "type": "var",
-              "id": "02"
+              "id": ["0", "2"]
+            },
+            {
+              "type": "br"
+            },
+            {
+              "type": "var",
+              "id": ["0", "3"]
             }
           ]
         },
@@ -100,8 +204,192 @@
           "type": "text",
           "text": [
             {
+              "type": "string",
+              "string": "Größe: "
+            },
+            {
               "type": "var",
-              "string": "03"
+              "question": "1",
+              "aliases": [
+                "Kleingarage",
+                "Mittelgarage",
+                "Großgarage"
+              ]
+            },
+            {
+              "type": "br"
+            },
+            {
+              "type": "string",
+              "string": "Typ: "
+            },
+            {
+              "type": "var",
+              "question": "2"
+            },
+
+
+            {
+              "type": "br"
+            },
+
+
+            {
+              "type": "string",
+              "string": "Bauweise: "
+            },
+            {
+              "type": "var",
+              "aliases": [
+                "Offen",
+                "Geschlossen"
+              ],
+              "question": "3"
+            },
+            {
+              "type": "string",
+              "string": ", "
+            },
+            {
+              "type": "var",
+              "aliases": [
+                "singulär",
+                "integriert"
+              ],
+              "question": "4"
+            },
+
+
+            {
+              "type": "br"
+            },
+
+
+            {
+              "type": "string",
+              "string": "Anzahl der Stellplätze: "
+            },
+            {
+              "type": "var",
+              "id": ["5", "0"]
+            },
+
+
+            {
+              "type": "br"
+            },
+
+
+            {
+              "type": "string",
+              "string": "Zugänglichkeit: "
+            },
+            {
+              "type": "var",
+              "question": "6"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Aktueller Netzanschluss: "
+            },
+            {
+              "type": "var",
+              "id": ["10", "0"]
+            },
+            {
+              "type": "string",
+              "string": " kVA"
+            },
+
+
+            {
+              "type": "br"
+            },
+
+            
+            {
+              "type": "string",
+              "string": "Aktuelle Anschlussleistung: "
+            },
+            {
+              "type": "var",
+              "id": ["11", "0"]
+            },
+            {
+              "type": "string",
+              "string": " kVA"
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "question": "9",
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "string",
+              "string": ", "
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "question": "9",
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "var",
+              "question": "9"
+            },
+
+
+            {
+              "type": "br"
+            },
+
+
+            {
+              "type": "string",
+              "string": "PV Modul: ",
+              "criterias": [
+                [
+                  {
+                    "question": "13",
+                    "operator": "=="
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "var",
+              "id": ["13", "0"],
+              "criterias": [
+                [
+                  {
+                    "question": "13",
+                    "operator": "=="
+                  }
+                ]
+              ]
+            },
+            {
+              "type": "string",
+              "string": " kWp",
+              "criterias": [
+                [
+                  {
+                    "question": "13",
+                    "operator": "=="
+                  }
+                ]
+              ]
             }
           ]
         }

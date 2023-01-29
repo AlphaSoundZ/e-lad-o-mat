@@ -255,7 +255,6 @@ function checkCriterias(questions, page_id) { // return true if condition is met
         return true;
 
     var criterias = questions[page_id].criterias;
-    console.log(criterias);
     for (var j = 0; j < criterias.length; j++) // or condition
     {
         var result = false;
@@ -327,18 +326,41 @@ function checkResultCriterias(criterias, questions, answers) {
         for (var j = 0; j < criterias[i].length; j++) // and condition
         {
             // check condition
-            var condition_id = criterias[i][j].id;
+            var condition_id = (criterias[i][j].id != null) ? criterias[i][j].id : null;
+            var condition_question_id = (criterias[i][j].question != null) ? criterias[i][j].question : null;
+            
             var operator = criterias[i][j].operator;
 
-            if (questions[condition_id[0]].answer_type == "text")
-            { // convert value to bool
-                var answer = (answers[condition_id[0]][condition_id[1]] == "") ? false : true;
-            }
-            else
+            if (condition_question_id != null)
             {
-                var answer = answers[condition_id[0]][condition_id[1]];
+                var answer = null;
+                for (var k = 0; k < answers[condition_question_id].length; k++)
+                {
+                    if (questions[condition_question_id].answer_type == "text")
+                    { // convert value to bool
+                        answer = (answers[condition_question_id][k] == "") ? false : true;
+                    }
+                    else
+                    {
+                        answer = answers[condition_question_id][k];
+                    }
+                }
+                    if (answers[condition_question_id][k] == true)
+                        result = true;
+            }
+            else if (condition_id != null)
+            {
+                if (questions[condition_id[0]].answer_type == "text")
+                { // convert value to bool
+                    answer = (answers[condition_id[0]][condition_id[1]] == "") ? false : true;
+                }
+                else
+                {
+                    answer = answers[condition_id[0]][condition_id[1]];
+                }
             }
 
+            // check condition operator and answer
             if ((operator == "==" && answer == true) || (operator == "!=" && answer == false))
             {
                 result = true;
@@ -348,6 +370,7 @@ function checkResultCriterias(criterias, questions, answers) {
                 result = false;
                 break;
             }
+
         }
 
         if (result == true)
@@ -409,7 +432,7 @@ function createResultPages(recommendations, questions) {
 function createResultPage(answers, recommendation, questions, i) { // recommendation = one recommendation, i = nth recommendation
     var id = getLastPageId() + 1;
 
-    // check for criterias
+    // check for general criterias for recommendation
     var criterias = (recommendation.criterias == null) ? [] : recommendation.criterias;
 
     if (criterias.length != 0 && checkResultCriterias(criterias, questions, answers) == false)
@@ -437,76 +460,94 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
     
     for (var i = 0; i < recommendation.paragraphs.length; i++) // i = nth paragraph
     {
-        var criterias = (recommendation.paragraphs[i].criterias == null) ? [] : recommendation.paragraphs[i].criterias;
-        if (criterias.length != 0 && checkResultCriterias(criterias, questions, answers) == false)
+        var paragraph_criterias = (recommendation.paragraphs[i].criterias == null) ? [] : recommendation.paragraphs[i].criterias;
+        if (paragraph_criterias.length != 0 && checkResultCriterias(paragraph_criterias, questions, answers) == false)
             continue;
+        
+        var i_paragraph = recommendation.paragraphs[i];
+
+        // empty line
+        if (i_paragraph.type == "br")
+        {
+            var br = document.createElement("br");
+            page_wrapper.appendChild(br);
+            continue;
+        }
+        
         // create paragraph
         var paragraph = document.createElement("p");
         
-        var i_paragraph = recommendation.paragraphs[i];
         for (var j = 0; j < i_paragraph["text"].length; j++) // j = nth text element in one paragraph
         {
             var type = i_paragraph["text"][j].type;
 
+            var text_criterias = (i_paragraph["text"][j].criterias == null) ? [] : i_paragraph["text"][j].criterias;
+            if (text_criterias.length != 0 && checkResultCriterias(text_criterias, questions, answers) == false)
+                continue;
+
+            console.log(answers);
             if (type == "var") // variable
             {
-                var x = i_paragraph["text"][j].id[0];
-                var y = i_paragraph["text"][j].id[1];
-                var text = answers[x][y];
+                if (i_paragraph["text"][j].question != null) // question
+                { // array answer
+                    var question = i_paragraph["text"][j].question;
+                    if (questions[question].answer_type == "single")
+                    {
+                        for (var k = 0; k < answers[question].length; k++) // k = nth answer
+                        {
+                            if (answers[question][k] == true) // if the answer is true
+                            {
+                                if (i_paragraph["text"][j].aliases != null) // if there is an alias
+                                {
+                                    text = i_paragraph["text"][j].aliases[k];
+                                }
+                                else
+                                {
+                                    text = questions[question].answers[k];
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    else if (questions[question].answer_type == "multi")
+                    {
+                        var text = "";
+                        for (var k = 0; k < answers[question].length; k++)
+                        {
+                            if (answers[question][k] == true) // if the answer is true
+                            {
+                                if (i_paragraph["text"][j].aliases != null) // if there is are aliases
+                                {
+                                    text += i_paragraph["text"][j].aliases[k];
+                                }
+                                else
+                                {
+                                    text += questions[question].answers[k];
+                                }
+                                text += i_paragraph["text"][j].separator;
+                            }
+                        }
+                        text = text.substring(0, text.length - i_paragraph["text"][j].separator.length);
+                    }
+                }
+                else if (i_paragraph["text"][j].id != null) // only textfield answer
+                {
+                    var x = i_paragraph["text"][j].id[0];
+                    var y = i_paragraph["text"][j].id[1];
+                    var text = answers[x][y];
+                }
             }
             else if (type == "string") // text
             {
                 var text = i_paragraph["text"][j].string;
             }
-            else if (type == "array")
+            else if (type == "hr") // horizontal line
             {
-                var question = i_paragraph["text"][j].question;
-                if (questions[question].answer_type == "single")
-                {
-                    for (var k = 0; k < answers[question].length; k++) // k = nth answer
-                    {
-                        if (answers[question][k] == true) // if the answer is true
-                        {
-                            if (i_paragraph["text"][j].aliases != null) // if there is are aliases
-                            {
-                                text = i_paragraph["text"][j].array[k];
-                            }
-                            else
-                            {
-                                text = questions[question].answers[k];
-                            }
-                            break;
-                        }
-                    }
-                }
-                else if (questions[question].answer_type == "multi")
-                {
-                    var text = "";
-                    for (var k = 0; k < answers[question].length; k++)
-                    {
-                        if (answers[question][k] == true) // if the answer is true
-                        {
-                            if (i_paragraph["text"][j].aliases != null) // if there is are aliases
-                            {
-                                text += i_paragraph["text"][j].aliases[k];
-                            }
-                            else
-                            {
-                                text += questions[question].answers[k];
-                            }
-                            text += i_paragraph["text"][j].separator;
-                        }
-                    }
-                    text = text.substring(0, text.length - i_paragraph["text"][j].separator.length);
-                }
+                var text = "<hr>";
             }
             else if (type == "br") // line break
             {
                 var text = "<br>";
-            }
-            else if (type == "hr") // horizontal line
-            {
-                var text = "<hr>";
             }
             paragraph.innerHTML += text;
             page_wrapper.appendChild(paragraph);
@@ -514,14 +555,7 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
 
 
         // styling
-        if (i_paragraph["type"] == "text")
-        {
-            paragraph.className = "text";
-        }
-        else if (i_paragraph["type"] == "hint")
-        {
-            paragraph.className = "hint";
-        }
+        paragraph.className = i_paragraph["type"]; // text or hint
     }
 
     return true;
@@ -723,10 +757,10 @@ function getAnswers(data) {
     var answers = [];
     for (var i = 0; i < data.length; i++)
     {
-        answers[i] = []
+        answers[i] = [];
         for (var j = 0; j < data[i].answers.length; j++)
         {
-            var answer = document.getElementById(getFirstQuestionIndexOfPage(i, data) + j);
+            var answer = document.getElementById(getFirstQuestionIndexOfPage(i, data) + j).querySelector("input");
 
             if (data[i].answer_type == "single" || data[i].answer_type == "multi")
                 answers[i][j] = answer.checked;
