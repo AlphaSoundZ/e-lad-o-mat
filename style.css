@@ -190,3 +190,11 @@ body {
         max-width: 100%;
     }
 }
+
+.square {
+    display: inline-block;
+    border: 2px solid #d8d8d8;
+    padding: 5px;
+    vertical-align: middle;
+    margin-right: 10px;
+}

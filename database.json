@@ -198,7 +198,8 @@
               "type": "var",
               "id": ["0", "3"]
             }
-          ]
+          ],
+          "block": true
         },
         {
           "type": "text",
@@ -215,10 +216,12 @@
                 "Mittelgarage",
                 "Großgarage"
               ]
-            },
-            {
-              "type": "br"
-            },
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
             {
               "type": "string",
               "string": "Typ: "
@@ -226,14 +229,12 @@
             {
               "type": "var",
               "question": "2"
-            },
-
-
-            {
-              "type": "br"
-            },
-
-
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
             {
               "type": "string",
               "string": "Bauweise: "
@@ -257,14 +258,12 @@
                 "integriert"
               ],
               "question": "4"
-            },
-
-
-            {
-              "type": "br"
-            },
-
-
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
             {
               "type": "string",
               "string": "Anzahl der Stellplätze: "
@@ -272,14 +271,12 @@
             {
               "type": "var",
               "id": ["5", "0"]
-            },
-
-
-            {
-              "type": "br"
-            },
-
-
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
             {
               "type": "string",
               "string": "Zugänglichkeit: "
@@ -288,7 +285,8 @@
               "type": "var",
               "question": "6"
             }
-          ]
+          ],
+          "block": true
         },
         {
           "type": "text",
@@ -304,14 +302,12 @@
             {
               "type": "string",
               "string": " kVA"
-            },
-
-
-            {
-              "type": "br"
-            },
-
-            
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
             {
               "type": "string",
               "string": "Aktuelle Anschlussleistung: "
@@ -347,14 +343,12 @@
               ],
               "type": "var",
               "question": "9"
-            },
-
-
-            {
-              "type": "br"
-            },
-
-
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
             {
               "type": "string",
               "string": "PV Modul: ",
@@ -392,6 +386,86 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "title": "Brandschutz",
+      "paragraphs": [
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Es wird empfohlen spezielle Brandmelde- und Löschtechniken zu installieren."
+            }
+          ]
+        },
+        {
+          "type": "hint",
+          "text": [
+            {
+              "type": "string",
+              "string": "Hinweis: Brandentwicklungen können dadurch so frühzeitig erkannt und eingedämmt werden."
+            }
+          ],
+          "block": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Punktmelder"
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["8", "0"],
+                "operator": "!="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Rauchansaugesystem"
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["8", "2"],
+                "operator": "!="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Hochdruck-Wassernebel-Anlage (HDWN)"
+            }
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Technikraum"
+            }
+          ],
+          "square": true
         }
       ]
     }

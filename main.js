@@ -464,18 +464,21 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
         if (paragraph_criterias.length != 0 && checkResultCriterias(paragraph_criterias, questions, answers) == false)
             continue;
         
-        var i_paragraph = recommendation.paragraphs[i];
-
-        // empty line
-        if (i_paragraph.type == "br")
-        {
-            var br = document.createElement("br");
-            page_wrapper.appendChild(br);
-            continue;
-        }
-        
         // create paragraph
         var paragraph = document.createElement("p");
+        var i_paragraph = recommendation.paragraphs[i];
+
+        // set margin-block-end
+        if (i_paragraph["block"] == true)
+        {
+            paragraph.style.marginBlockEnd = "1em";
+        }
+        else
+        {
+            paragraph.style.marginBlockEnd = "0em";
+        }
+
+        paragraph.style.marginBlockStart = "0em";
 
         // styling
         paragraph.className = i_paragraph["type"]; // text or hint
@@ -553,8 +556,29 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
             {
                 var text = "<br>";
             }
+
             paragraph.innerHTML += text;
+
+            // square
+            if (i_paragraph["square"] == true)
+            {
+                var square = document.createElement("div");
+                square.className = "square";
+                page_wrapper.appendChild(square);
+
+                paragraph.style.display = "inline-block";
+                paragraph.style.verticalAlign = "middle";
+
+                // line break
+            }
+            
             page_wrapper.appendChild(paragraph);
+
+            if (i_paragraph["square"] == true)
+            {
+                var line_break = document.createElement("br");
+                page_wrapper.appendChild(line_break);
+            }
         }
     }
 

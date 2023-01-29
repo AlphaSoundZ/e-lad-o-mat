@@ -1,0 +1,101 @@
+{
+  "questions": [
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "string",
+          "placeholder": "Straße, Nr."
+        },
+        {
+          "type": "string",
+          "placeholder": "PLZ"
+        },
+        {
+          "type": "string",
+          "placeholder": "Stadt"
+        },
+        {
+          "type": "string",
+          "placeholder": "Bundesland"
+        }
+      ],
+      "question": "Standort der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "< 100 m² | Kleingarage",
+        "> 100 m² - < 1.000 m² | Mittelgarage",
+        "> 1.000 m² | Großgarage"
+      ],
+      "hint": "Hinweis: Die Nutzfläche einer Garage ist die Summe aller miteinander verbundenen Flächen der Garagenstellplätze und der Verkehrsflächen",
+      "question": "Größe der Parkbauten",
+      "required": true
+    }
+  ],
+  
+  "recommendations": [
+    {
+      "title": "Brandschutz",
+      "paragraphs": [
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Es wird empfohlen spezielle Brandmelde- und Löschtechniken zu installieren."
+            }
+          ]
+        },
+        {
+          "type": "hint",
+          "text": [
+            {
+              "type": "string",
+              "string": "Hinweis: Brandentwicklungen können dadurch so frühzeitig erkannt und eingedämmt werden."
+            }
+          ],
+          "block": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Punktmelder"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Punktmelder"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Hochdruck-Wassernebel-Anlage (HDWN)"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Technikraum"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
