@@ -162,6 +162,218 @@
           }
         ]
       ]
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "Besucher",
+        "Anwohner",
+        "Mitarbeiter",
+        "Dauerparker"
+      ],
+      "question": "Nutzer der geplanten Ladeinfrastruktur",
+      "required": true,
+      "criterias": [
+        [
+          {
+            "id": ["12", "1"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Diskriminierungsfrei",
+        "Zugangsmedium (Registrierung)"
+      ],
+      "hint": "Hinweis: Systeme bei denen jeder Nutzer ohne Registrierung beim Betreiber per App, SMS oder EC an einer Ladesäule sein Elektrofahrzeug laden kann, werden als „diskriminierungsfreie“ Ladepunkte bezeichnet.",
+      "question": "Zugangsmöglichkeit der Ladeinfrastruktur",
+      "required": false
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "< 1 Stunde",
+        "> 2 Stunden",
+        "> 6 Stunden"
+      ],
+      "question": "Durchschnittliche Ladeverweilzeit",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Vollständiges Laden",
+        "Zwischenladung"
+      ],
+      "question": "Primäre Nutzung",
+      "required": true
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "integer"
+        }
+      ],
+      "question": "Anzahl der geplanten Ladepunkten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "Ist ein weiterer Ausbau an Ladepunkten in der Zukunft geplant?",
+      "required": true
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "integer"
+        }
+      ],
+      "hint": "Hinweis: Summe der geplanten Ladepunkte (Aktuell und Zukunft)",
+      "question": "Anzahl der geplanten Ladepunkte",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["19", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "Wallbox",
+        "Standsäule"
+      ],
+      "question": "Auswahl des Ladegeräts",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["16", "0"],
+            "operator": "!="
+          }
+        ],
+        [
+          {
+            "id": ["17", "0"],
+            "operator": "!="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Keine Tarifierung",
+        "Tarifierung nach abgegebener Strommenge",
+        "Tarifierung nach Zeit",
+        "Flatrates"
+      ],
+      "question": "Tarifierungskonzept",
+      "required": true
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "RFID-Karten",
+        "App / SMS",
+        "EC / Kreditkarte",
+        "Parkticket"
+      ],
+      "question": "Zugang und Bezahlung",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "hint": "Hinweis: Nutzer von RFID-Karten anderer Betreiber wird das Bezahlen möglich gemacht",
+      "question": "Gewünschte Zusatzfunktion Roaming",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["23", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "hint": "Hinweis: Backend Systeme ermöglichen Monitoring und Fernwartung der E-Ladesäulen",
+      "question": "Gewünschte Zusatzfunktion Backend System",
+      "required": false
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "Gewünschte Lademöglichkeit für E-Bikes/Pedelecs",
+      "required": true
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "integer"
+        }
+      ],
+      "question": "Anzahl der Stellplätze",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["26", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "Gewünschte Lademöglichkeit für E-Scooter/E-Roller",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "Kooperation mit Sharing-Anbieter",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["28", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
     }
   ],
   
@@ -407,9 +619,50 @@
             {
               "type": "string",
               "string": "Hinweis: Brandentwicklungen können dadurch so frühzeitig erkannt und eingedämmt werden."
+            },
+            {
+              "type": "br"
+            },
+            {
+              "type": "string",
+              "string": "Hinweis: Aufgrund der begrenzten größe sind ggf. Technikraum und Rauchansauganlage nicht möglich.",
+              "criterias": [
+                [
+                  {
+                    "id": ["1", "0"],
+                    "operator": "=="
+                  }
+                ]
+              ]
             }
           ],
-          "block": true
+          "block": true,
+          "criterias": [
+            [
+              {
+                "id": ["1", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "hint",
+          "text": [
+            {
+              "type": "string",
+              "string": "Hinweis: Brandentwicklungen können dadurch so frühzeitig erkannt und eingedämmt werden."
+            }
+          ],
+          "block": true,
+          "criterias": [
+            [
+              {
+                "id": ["1", "0"],
+                "operator": "!="
+              }
+            ]
+          ]
         },
         {
           "type": "text",
@@ -464,6 +717,773 @@
               "type": "string",
               "string": "Technikraum"
             }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["7", "1"],
+                "operator": "=="
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Ladeinfrastruktur",
+      "paragraphs": [
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Nutzer: "
+            },
+            {
+              "type": "var",
+              "question": "14",
+              "separator": ", "
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Ladeverweildauer: "
+            },
+            {
+              "type": "var",
+              "question": "16"
+            }
+          ],
+          "block": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Empfohlene Ladesäule:"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "var",
+              "id": ["20", "0"]
+            },
+            {
+              "type": "string",
+              "string": " Ladepunkte"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["20", "0"],
+                "operator": "=="
+              }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "var",
+              "id": ["18", "0"]
+            },
+            {
+              "type": "string",
+              "string": " Ladepunkte"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["20", "0"],
+                "operator": "!="
+              }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "var",
+              "question": "21",
+              "separator": "/",
+              "aliases": [
+                "Wallbox",
+                "Ladesäule"
+              ]
+            }
+          ],
+          "square": true
+        }
+      ]
+    },
+    {
+      "title": "Ausstattung",
+      "paragraphs": [
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Benötigte Ausstattungsmerkmale der Ladesäule:"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Geeichter, sichtbarer Stromzähler"
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["22", "2"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Kartenleser"
+            }
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Statusanzeige per Screen"
+            }
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Steuerungs-Modul"
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["24", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "CPU"
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["24", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Mobilfunk-Modul zur Anbindung an das Backend-System"
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["25", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Backend-System"
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["25", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Lastmanagementsystem"
+            }
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Ggf. Folierung/Beklebung/Logo"
+            }
+          ],
+          "square": true
+        }
+      ]
+    },
+    {
+      "title": "Ausbaustufen & Netzanschluss",
+      "paragraphs": [
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Weiterer Ausbau in Zukunft geplant: "
+            },
+            {
+              "type": "var",
+              "question": "19",
+              "aliases": [
+                "JA",
+                "NEIN"
+              ]
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["19", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Weiterer Ausbau in Zukunft geplant: "
+            },
+            {
+              "type": "var",
+              "question": "19",
+              "aliases": [
+                "JA",
+                "NEIN"
+              ]
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["19", "0"],
+                "operator": "!="
+              }
+            ]
+          ],
+          "block": true
+        },
+        {
+          "type": "hint",
+          "text": [
+            {
+              "type": "string",
+              "string": "Hinweis: Da ein weiterer Ausbau in der Zukunft geplant ist, wird empfohlen zusätzlich benötigten Strombedarf für den Netzanschluss zu planen."
+            }
+          ],
+          "block": true,
+          "criterias": [
+            [
+              {
+                "id": ["19", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "hint",
+          "text": [
+            {
+              "type": "string",
+              "string": "Hinweis: Eine Überprüfung des Netzanschlusses mit dem Stromnetzbetreiber muss erfolgen."
+            }
+          ],
+          "block": true
+        },
+        {
+          "type": "text bold",
+          "text": [
+            {
+              "type": "string",
+              "string": "Benötigter Netzanschluss"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Aktueller Netzanschluss: "
+            },
+            {
+              "type": "var",
+              "id": ["11", "0"]
+            },
+            {
+              "type": "string",
+              "string": " kVA"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Ausbaustufe 1: "
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Ausbaustufe 2: "
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["19", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text bold",
+          "text": [
+            {
+              "type": "br"
+            },
+            {
+              "type": "string",
+              "string": "Finanzierung"
+            }
+          ]
+        },
+        {
+          "type": "hint",
+          "text": [
+            {
+              "type": "string",
+              "string": "Die Nachfolgende Grafik gibt einen Überblick zu den Nettokosten. Die dort angegebenen Preise dienen zur Orientierung und variieren in der Praxis. Nicht berücksichtigt werden weitere, mögliche Kosten der Standortvorbereitung."
+            }
+          ],
+          "block": true
+        },
+        {
+          "type": "string",
+          "text": [
+            {
+              "type": "string",
+              "string": "Ladetechnik Ladesäulentyp: "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Mikromobilitäts-Station",
+      "paragraphs": [
+        {
+          "type": "hint",
+          "text": [
+            {
+              "type": "string",
+              "string": "Hinweis: Mögliche Kooperation mit Sharing Anbietern sowie Akku-Wechsel und Ladeinfrastruktur Betreibern."
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["26", "1"],
+                "operator": "=="
+              },
+              {
+                "id": ["28", "1"],
+                "operator": "!="
+              }
+            ],
+            [
+              {
+                "id": ["26", "1"],
+                "operator": "!="
+              },
+              {
+                "id": ["28", "1"],
+                "operator": "=="
+              }
+            ]
+          ],
+          "block": true
+        },
+        {
+          "type": "hint",
+          "text": [
+            {
+              "type": "string",
+              "string": "Hinweis: Es ist keine Verknüpfung mit Mikromobilität vorgesehen."
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["26", "1"],
+                "operator": "=="
+              },
+              {
+                "id": ["28", "1"],
+                "operator": "=="
+              }
+            ]
+          ],
+          "block": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Erweiterungsmöglichkeiten:"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "E-Ladestation E-Bike"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["26", "0"],
+                "operator": "=="
+              }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Abstellanlagen"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["26", "0"],
+                "operator": "=="
+              }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Überdachung"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["26", "0"],
+                "operator": "=="
+              },
+              {
+                "id": ["27", "0"],
+                "operator": "=="
+              }
+
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Überdachung"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["26", "0"],
+                "operator": "=="
+              },
+              {
+                "id": ["27", "0"],
+                "operator": "!="
+              }
+            ]
+          ],
+          "square": true,
+          "block": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Benötigte Fläche: ca. "
+            },
+            {
+              "type": "var",
+              "id": ["27", "0"]
+            },
+            {
+              "type": "string",
+              "string": " m²"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["26", "0"],
+                "operator": "=="
+              },
+              {
+                "id": ["27", "0"],
+                "operator": "=="
+              }
+            ]
+          ],
+          "square": true,
+          "block": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Ladedock für E-Scooter"
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["28", "0"]
+              }
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Akku-Ladeschrank"
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "id": ["29", "0"]
+              }
+            ]
+          ]
+        }
+      ],
+      "criterias": [
+        [
+          {
+            "id": ["26", "0"],
+            "operator": "=="
+          }
+        ],
+        [
+          {
+            "id": ["28", "0"],
+            "operator": "=="
+          }
+        ],
+        [
+          {
+            "id": ["29", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "title": "Weitere Schritte",
+      "paragraphs": [
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Potenzielle Anbieter für folgende Leistungen sollten ermittelt werden:"
+            }
+          ],
+          "block": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Zuleitung/Netzanschluss"
+            }
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Netzanschlussvertrag (NAV)"
+            }
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Energielieferant"
+            }
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Installation"
+            }
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Beschilderung/Bodenmarkierung"
+            }
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Inbetriebnahme & Abnahme"
+            }
+          ],
+          "square": true,
+          "block": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Roaming-Provider"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["24", "0"],
+                "operator": "=="
+              }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Backend-Provider"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["25", "0"],
+                "operator": "=="
+              }
+            ]
           ],
           "square": true
         }
