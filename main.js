@@ -391,10 +391,13 @@ import 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js';
 function createResultPages(recommendations, questions) {
     // get answers
     var answers = getAnswers(questions);
+    var skipped = 0;
 
     for (var i = 0; i < recommendations.length; i++)
     {
-        createResultPage(answers, recommendations[i], questions, i);
+        var created = createResultPage(answers, recommendations[i], questions, i, skipped);
+        if (created == false)
+            skipped++;
     }
 
     // generate and download the PDF
@@ -429,7 +432,7 @@ function createResultPages(recommendations, questions) {
     });
 }
 
-function createResultPage(answers, recommendation, questions, i) { // recommendation = one recommendation, i = nth recommendation
+function createResultPage(answers, recommendation, questions, i, skipped) { // recommendation = one recommendation, i = nth recommendation
     var id = getLastPageId() + 1;
 
     // check for general criterias for recommendation
@@ -451,7 +454,7 @@ function createResultPage(answers, recommendation, questions, i) { // recommenda
     if (i == 0) // only the first recommendation has no number
         recommendation_title.innerHTML = recommendation.title;
     else
-        recommendation_title.innerHTML = "Empfehlung " + i + ": " + recommendation.title;
+        recommendation_title.innerHTML = "Empfehlung " + (i-skipped) + ": " + recommendation.title;
     page_wrapper.appendChild(recommendation_title);
 
     // create paragraphs
