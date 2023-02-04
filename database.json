@@ -172,15 +172,7 @@
         "Dauerparker"
       ],
       "question": "Nutzer der geplanten Ladeinfrastruktur",
-      "required": true,
-      "criterias": [
-        [
-          {
-            "id": ["12", "1"],
-            "operator": "=="
-          }
-        ]
-      ]
+      "required": true
     },
     {
       "answer_type": "single",
@@ -814,9 +806,6 @@
           ],
           "square": true
         },
-
-
-
         {
           "type": "text",
           "text": [
@@ -883,8 +872,6 @@
           ],
           "square": true
         },
-
-
         {
           "type": "text",
           "text": [
@@ -969,8 +956,6 @@
           ],
           "square": true
         },
-
-
         {
           "type": "text",
           "text": [
@@ -1067,15 +1052,6 @@
           ],
           "square": true
         },
-
-
-
-
-
-
-
-
-
         {
           "type": "text",
           "text": [
@@ -1353,12 +1329,185 @@
             }
           ]
         },
+
+
+
         {
           "type": "text",
           "text": [
             {
               "type": "string",
               "string": "Ausbaustufe 1: "
+            },
+            {
+              "criterias": [
+                [
+                  {
+                      "id": ["16", "0"],
+                      "operator": "=="
+                  },
+                  {
+                      "id": ["17", "0"],
+                      "operator": "=="
+                  }
+                ]
+              ],
+              "type": "calc",
+              "values": [
+                {"id": ["18", "0"]},
+                {"value": "50"}
+              ],
+              "operator": "*"
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "calc",
+              "values": [
+                {"id": ["18", "0"]},
+                {"value": "11"}
+              ],
+              "operator": "*"
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "string",
+              "string": " - "
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "calc",
+              "values": [
+                {"id": ["18", "0"]},
+                {"value": "22"}
+              ],
+              "operator": "*"
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "calc",
+              "values": [
+                {"id": ["18", "0"]},
+                {"value": "3.7"}
+              ],
+              "operator": "*"
+            },
+            {
+              "type": "string",
+              "string": " kVA"
             }
           ]
         },
@@ -1368,17 +1517,190 @@
             {
               "type": "string",
               "string": "Ausbaustufe 2: "
+            },
+            {
+              "criterias": [
+                [
+                  {
+                      "id": ["16", "0"],
+                      "operator": "=="
+                  },
+                  {
+                      "id": ["17", "0"],
+                      "operator": "=="
+                  }
+                ]
+              ],
+              "type": "calc",
+              "values": [
+                {"id": ["20", "0"]},
+                {"value": "50"}
+              ],
+              "operator": "*"
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "calc",
+              "values": [
+                {"id": ["20", "0"]},
+                {"value": "11"}
+              ],
+              "operator": "*"
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "string",
+              "string": " - "
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "calc",
+              "values": [
+                {"id": ["20", "0"]},
+                {"value": "22"}
+              ],
+              "operator": "*"
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "calc",
+              "values": [
+                {"id": ["20", "0"]},
+                {"value": "3.7"}
+              ],
+              "operator": "*"
+            },
+            {
+              "type": "string",
+              "string": " kVA"
             }
           ],
           "criterias": [
             [
               {
-                "id": ["19", "0"],
+                "id": ["20", "0"],
                 "operator": "=="
               }
             ]
           ]
         },
+
+
+
         {
           "type": "text bold",
           "text": [
@@ -1402,12 +1724,750 @@
           "block": true
         },
         {
-          "type": "string",
+          "type": "text",
           "text": [
             {
               "type": "string",
               "string": "Ladetechnik Ladesäulentyp: "
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "string",
+              "string": "DC Ladesäule mit min. 50 kW"
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "string",
+              "string": "AC-Ladesäule 11-22 kW"
+            },
+            {
+              "criterias": [
+                [
+                  {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                  }
+                ],
+                [
+                  {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                  },
+                  {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                  }
+                ]
+              ],
+              "type": "string",
+              "string": "AC-Ladesäule 3,7 kW"
             }
+          ],
+          "block": true
+        },
+
+
+
+        {
+          "type": "table",
+          "table": [
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Hardware: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "30000"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ],
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Netzanschlusskosten: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "50000"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ],
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Installation: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "3500"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ]
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["16", "0"],
+                "operator": "=="
+              },
+              {
+                "id": ["17", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "hr",
+          "criterias": [
+            [
+              {
+                "id": ["16", "0"],
+                "operator": "=="
+              },
+              {
+                "id": ["17", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "table": [
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Summe: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "83500"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ]
+          ],
+          "block": true,
+          "criterias": [
+            [
+              {
+                "id": ["16", "0"],
+                "operator": "=="
+              },
+              {
+                "id": ["17", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "table": [
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Betrieb/Wartung: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "3000"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €/a"
+                }
+              ]
+            ]
+          ],
+          "block": true,
+          "criterias": [
+            [
+              {
+                "id": ["16", "0"],
+                "operator": "=="
+              },
+              {
+                "id": ["17", "0"],
+                "operator": "=="
+              }
+            ]
+          ]
+        },
+
+        {
+          "type": "table",
+          "table": [
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Hardware: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "8000"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ],
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Netzanschlusskosten: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "2000"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ],
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Installation: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "2000"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ]
+          ],
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                  "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ]
+        },
+        {
+          "type": "hr",
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                  "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "table": [
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Summe: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "12000"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ]
+          ],
+          "block": true,
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                  "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "table": [
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Betrieb/Wartung: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "1500"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €/a"
+                }
+              ]
+            ]
+          ],
+          "block": true,
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                  "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ]
+        },
+
+        {
+          "type": "table",
+          "table": [
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Hardware: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "1200"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ],
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Netzanschlusskosten: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "1000"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ],
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Installation: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "500"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ]
+          ],
+          "criterias": [
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ]
+        },
+        {
+          "type": "hr",
+          "criterias": [
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "table": [
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Summe: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "2700"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €"
+                }
+              ]
+            ]
+          ],
+          "block": true,
+          "criterias": [
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "table": [
+            [
+              [
+                {
+                  "type": "string",
+                  "string": "Betrieb/Wartung: "
+                }
+              ],
+              [
+                {
+                  "type": "calc",
+                  "operator": "*",
+                  "values": [
+                    {"id": ["18", "0"]},
+                    {"value": "1500"}
+                  ]
+                },
+                {
+                  "type": "string",
+                  "string": " €/a"
+                }
+              ]
+            ]
+          ],
+          "block": true,
+          "criterias": [
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
           ]
         }
       ]
@@ -1575,7 +2635,7 @@
                   "id": ["27", "0"]
                 },
                 {
-                  "value": 1.75
+                  "value": "1.75"
                 }
               ]
             },
