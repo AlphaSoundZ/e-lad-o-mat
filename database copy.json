@@ -1,11 +1,11 @@
 {
   "questions": [
     {
-      "answer_type": "single",
+      "answer_type": "text",
       "answers": [
-        "< 100 m² | Kleingarage",
-        "> 100 m² - < 1.000 m² | Mittelgarage",
-        "> 1.000 m² | Großgarage"
+        {
+          "type": "integer"
+        }
       ],
       "hint": "Hinweis: Die Nutzfläche einer Garage ist die Summe aller miteinander verbundenen Flächen der Garagenstellplätze und der Verkehrsflächen",
       "question": "Größe der Parkbauten",
@@ -15,17 +15,36 @@
   
   "recommendations": [
     {
-      "title": "Daten der Parkbauten:",
+      "title": "BLABLABLA:",
       "paragraphs": [
         {
-          "type": "text bold",
+          "type": "text",
           "text": [
             {
               "type": "string",
               "string": "Title"
             }
           ],
+          "criterias": [
+            [
+              {
+                "id": ["0", "0"],
+                "operator": "=="
+              }
+            ]
+          ],
+          "square": true,
           "block": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Title2"
+            }
+          ],
+          "square": true
         }
       ]
     }

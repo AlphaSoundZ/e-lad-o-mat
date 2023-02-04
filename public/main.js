@@ -551,6 +551,54 @@ function createResultPage(answers, recommendation, questions, i, skipped) { // r
             {
                 var text = i_paragraph["text"][j].string;
             }
+            else if (type == "calc") // calculation
+            {
+                var operator = i_paragraph["text"][j].operator;
+                var result = 0;
+                for (var k = 0; k < i_paragraph["text"][j].values.length; k++)
+                {
+                    // get value
+                    if (i_paragraph["text"][j].values[k].id != null) // question
+                    {
+                        var x = i_paragraph["text"][j].values[k].id[0];
+                        var y = i_paragraph["text"][j].values[k].id[1];
+                        var value = answers[x][y];
+                    }
+                    else if (i_paragraph["text"][j].values[k].value != null) // number
+                    {
+                        var value = i_paragraph["text"][j].values[k].value;
+                    }
+                    else
+                    {
+                        var value = null;
+                    }
+                    
+                    if (k == 0 && value != null)
+                    {
+                        result = value;
+                    }
+                    else
+                    {
+                        if (operator == "+" && value != null)
+                        {
+                            result += value;
+                        }
+                        else if (operator == "-" && value != null)
+                        {
+                            result -= value;
+                        }
+                        else if (operator == "*" && value != null)
+                        {
+                            result *= value;
+                        }
+                        else if (operator == "/" && value != null)
+                        {
+                            result /= value;
+                        }
+                    }
+                }
+                var text = result;
+            }
             else if (type == "hr") // horizontal line
             {
                 var text = "<hr>";
@@ -562,26 +610,29 @@ function createResultPage(answers, recommendation, questions, i, skipped) { // r
 
             paragraph.innerHTML += text;
 
-            // square
-            if (i_paragraph["square"] == true)
+        }
+        // square
+        if (i_paragraph["square"] == true)
+        {
+            var square = document.createElement("div");
+            square.className = "square";
+            page_wrapper.appendChild(square);
+
+            paragraph.style.display = "inline-block";
+            paragraph.style.verticalAlign = "middle";
+
+            if (i_paragraph["block"] == true)
             {
-                var square = document.createElement("div");
-                square.className = "square";
-                page_wrapper.appendChild(square);
-
-                paragraph.style.display = "inline-block";
-                paragraph.style.verticalAlign = "middle";
-
-                // line break
+                square.style.marginBlockEnd = "1em";
             }
-            
-            page_wrapper.appendChild(paragraph);
+        }
+        
+        page_wrapper.appendChild(paragraph);
 
-            if (i_paragraph["square"] == true)
-            {
-                var line_break = document.createElement("br");
-                page_wrapper.appendChild(line_break);
-            }
+        if (i_paragraph["square"] == true)
+        {
+            var line_break = document.createElement("br");
+            page_wrapper.appendChild(line_break);
         }
     }
 

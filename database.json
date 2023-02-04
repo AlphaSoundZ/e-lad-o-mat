@@ -827,7 +827,15 @@
               ]
             }
           ],
-          "square": true
+          "square": true,
+          "criterias": [
+            [
+              {
+                "question": "21",
+                "operator": "=="
+              }
+            ]
+          ]
         }
       ]
     },
@@ -1298,8 +1306,16 @@
               "string": "Benötigte Fläche: ca. "
             },
             {
-              "type": "var",
-              "id": ["27", "0"]
+              "type": "calc",
+              "operator": "*",
+              "values": [
+                {
+                  "id": ["27", "0"]
+                },
+                {
+                  "value": 1.75
+                }
+              ]
             },
             {
               "type": "string",
