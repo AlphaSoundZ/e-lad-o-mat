@@ -814,6 +814,268 @@
           ],
           "square": true
         },
+
+
+
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "DC Ladesäule mit min. 50 kW"
+            }
+          ],
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "CEE Stecker"
+            }
+          ],
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "CHAdeMO Stecker"
+            }
+          ],
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+
+
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "AC-Ladesäule 11-22 kW"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "0"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "1"],
+                  "operator": "=="
+              }
+            ],
+            [
+              {
+                  "id": ["16", "1"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "3-phasig Typ 2-Stecker"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "0"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "1"],
+                  "operator": "=="
+              }
+            ],
+            [
+              {
+                  "id": ["16", "1"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+
+
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "AC-Ladesäule 3,7 kW"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "2"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "1-phasig Typ 2-Stecker"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "2"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "3-phasig Typ 2-Stecker"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "2"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+
+
+
+
+
+
+
+
+
         {
           "type": "text",
           "text": [

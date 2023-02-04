@@ -383,11 +383,10 @@ function checkResultCriterias(criterias, questions, answers) {
 }
 
 
-// Result Functions
-
 // import jsPDF
 import 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js';
 
+// Result Functions
 function createResultPages(recommendations, questions) {
     // get answers
     var answers = getAnswers(questions);

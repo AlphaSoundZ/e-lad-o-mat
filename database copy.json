@@ -4,36 +4,424 @@
       "answer_type": "text",
       "answers": [
         {
-          "type": "integer"
+          "type": "string",
+          "placeholder": "Straße, Nr."
+        },
+        {
+          "type": "string",
+          "placeholder": "PLZ"
+        },
+        {
+          "type": "string",
+          "placeholder": "Stadt"
+        },
+        {
+          "type": "string",
+          "placeholder": "Bundesland"
         }
+      ],
+      "question": "Standort der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "< 100 m² | Kleingarage",
+        "> 100 m² - < 1.000 m² | Mittelgarage",
+        "> 1.000 m² | Großgarage"
       ],
       "hint": "Hinweis: Die Nutzfläche einer Garage ist die Summe aller miteinander verbundenen Flächen der Garagenstellplätze und der Verkehrsflächen",
       "question": "Größe der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Oberirdische Parkbauten",
+        "Unterirdische Parkbauten",
+        "Gemischte Parkbauten"
+      ],
+      "question": "Typ der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Offene Bauweise",
+        "Geschlossene Bauweise"
+      ],
+      "hint": "Hinweis: offene Garagen sind Garagen die unmittelbar ins Freie führende unverschließbare Öffnungen in einer Größe von insgesamt mindestens einem Drittel der Gesamtfläche der Umfassungswände haben. Dabei dürfen mindestens zwei sich gegenüberliegende Umfassungswände, mit den ins Freie führenden Öffnungen nicht mehr als 70 m voneinander entfernt sein und müssen eine ständige Querlüftung aufweisen.",
+      "question": "Bauweise der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Singuläre Parkbauten",
+        "Integrierte Parkbauten"
+      ],
+      "question": "Bauweise der Parkbauten",
+      "required": true
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "integer"
+        }
+      ],
+      "question": "Anzahl der Stellplätze",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Öffentlich",
+        "Halböffentlich",
+        "Privat"
+      ],
+      "hint": "Hinweis: Halböffentlich: Eingeschränkte Zugänglichkeit (z.B. Öffnungszeiten / bestimmte Nutzergruppe)",
+      "question": "Zugänglichkeit",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Technikraum",
+        "Schaltschrank"
+      ],
+      "question": "Vorhandene Gebäudetechnik",
+      "required": true
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "Brandmeldeanlage",
+        "Löschtechnik",
+        "Lüftung und Entrauchung"
+      ],
+      "question": "Vorhandener Brandschutz",
       "required": false
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Niederspannungsnetz",
+        "Mittelspannungsnetz",
+        "Hochspannungsnetz"
+      ],
+      "question": "Aktueller Netzanschluss",
+      "required": false
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "float"
+        }
+      ],
+      "hint": "Hinweis: Angaben in Kilo Volt-Ampere",
+      "question": "Aktueller Strombedarf (kVA)",
+      "required": true
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "float"
+        }
+      ],
+      "hint": "Hinweis: Angaben in Kilo Volt-Ampere",
+      "question": "Aktuelle Anschlussleistung (kVA)",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "PV-Module für regenerative Energie vorhanden?",
+      "required": false
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "float"
+        }
+      ],
+      "hint": "Hinweis: Angabe der Nennleistung",
+      "question": "Vorhandene regenerative Energie (kWp)",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["12", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "Besucher",
+        "Anwohner",
+        "Mitarbeiter",
+        "Dauerparker"
+      ],
+      "question": "Nutzer der geplanten Ladeinfrastruktur",
+      "required": true,
+      "criterias": [
+        [
+          {
+            "id": ["12", "1"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Diskriminierungsfrei",
+        "Zugangsmedium (Registrierung)"
+      ],
+      "hint": "Hinweis: Systeme bei denen jeder Nutzer ohne Registrierung beim Betreiber per App, SMS oder EC an einer Ladesäule sein Elektrofahrzeug laden kann, werden als „diskriminierungsfreie“ Ladepunkte bezeichnet.",
+      "question": "Zugangsmöglichkeit der Ladeinfrastruktur",
+      "required": false
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "< 1 Stunde",
+        "> 2 Stunden",
+        "> 6 Stunden"
+      ],
+      "question": "Durchschnittliche Ladeverweilzeit",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Vollständiges Laden",
+        "Zwischenladung"
+      ],
+      "question": "Primäre Nutzung",
+      "required": true
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "integer"
+        }
+      ],
+      "question": "Anzahl der geplanten Ladepunkten",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "Ist ein weiterer Ausbau an Ladepunkten in der Zukunft geplant?",
+      "required": true
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "integer"
+        }
+      ],
+      "hint": "Hinweis: Summe der geplanten Ladepunkte (Aktuell und Zukunft)",
+      "question": "Anzahl der geplanten Ladepunkte",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["19", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "Wallbox",
+        "Standsäule"
+      ],
+      "question": "Auswahl des Ladegeräts",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["16", "0"],
+            "operator": "!="
+          }
+        ],
+        [
+          {
+            "id": ["17", "0"],
+            "operator": "!="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Keine Tarifierung",
+        "Tarifierung nach abgegebener Strommenge",
+        "Tarifierung nach Zeit",
+        "Flatrates"
+      ],
+      "question": "Tarifierungskonzept",
+      "required": true
+    },
+    {
+      "answer_type": "multi",
+      "answers": [
+        "RFID-Karten",
+        "App / SMS",
+        "EC / Kreditkarte",
+        "Parkticket"
+      ],
+      "question": "Zugang und Bezahlung",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "hint": "Hinweis: Nutzer von RFID-Karten anderer Betreiber wird das Bezahlen möglich gemacht",
+      "question": "Gewünschte Zusatzfunktion Roaming",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["23", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "hint": "Hinweis: Backend Systeme ermöglichen Monitoring und Fernwartung der E-Ladesäulen",
+      "question": "Gewünschte Zusatzfunktion Backend System",
+      "required": false
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "Gewünschte Lademöglichkeit für E-Bikes/Pedelecs",
+      "required": true
+    },
+    {
+      "answer_type": "text",
+      "answers": [
+        {
+          "type": "integer"
+        }
+      ],
+      "question": "Anzahl der Stellplätze",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["26", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "Gewünschte Lademöglichkeit für E-Scooter/E-Roller",
+      "required": true
+    },
+    {
+      "answer_type": "single",
+      "answers": [
+        "Ja",
+        "Nein"
+      ],
+      "question": "Kooperation mit Sharing-Anbieter",
+      "required": false,
+      "criterias": [
+        [
+          {
+            "id": ["28", "0"],
+            "operator": "=="
+          }
+        ]
+      ]
     }
   ],
   
   "recommendations": [
     {
-      "title": "BLABLABLA:",
+      "title": "Daten der Parkbauten:",
       "paragraphs": [
         {
           "type": "text",
           "text": [
             {
               "type": "string",
-              "string": "Title"
+              "string": "hihiih"
             }
           ],
-          "criterias": [
-            [
-              {
-                "id": ["0", "0"],
-                "operator": "=="
-              }
-            ]
+          "block": true
+        }
+      ]
+    },
+    {
+      "title": "Ladeinfrastruktur",
+      "paragraphs": [
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Nutzer: "
+            },
+            {
+              "type": "var",
+              "question": "14",
+              "separator": ", "
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Ladeverweildauer: "
+            },
+            {
+              "type": "var",
+              "question": "16"
+            }
           ],
-          "square": true,
           "block": true
         },
         {
@@ -41,10 +429,338 @@
           "text": [
             {
               "type": "string",
-              "string": "Title2"
+              "string": "Empfohlene Ladesäule:"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "var",
+              "id": ["20", "0"]
+            },
+            {
+              "type": "string",
+              "string": " Ladepunkte"
             }
           ],
+          "criterias": [
+            [
+              {
+                "id": ["20", "0"],
+                "operator": "=="
+              }
+            ]
+          ],
           "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "var",
+              "id": ["18", "0"]
+            },
+            {
+              "type": "string",
+              "string": " Ladepunkte"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                "id": ["20", "0"],
+                "operator": "!="
+              }
+            ]
+          ],
+          "square": true
+        },
+
+
+
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "DC Ladesäule mit min. 50 kW"
+            }
+          ],
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "CEE Stecker"
+            }
+          ],
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "CHAdeMO Stecker"
+            }
+          ],
+          "criterias": [
+            [
+                {
+                    "id": ["16", "0"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "0"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+
+
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "AC-Ladesäule 11-22 kW"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "0"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "1"],
+                  "operator": "=="
+              }
+            ],
+            [
+              {
+                  "id": ["16", "1"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "3-phasig Typ 2-Stecker"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "0"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "1"],
+                  "operator": "=="
+              }
+            ],
+            [
+              {
+                  "id": ["16", "1"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "1"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+
+
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "AC-Ladesäule 3,7 kW"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "2"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "1-phasig Typ 2-Stecker"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "2"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "3-phasig Typ 2-Stecker"
+            }
+          ],
+          "criterias": [
+            [
+              {
+                  "id": ["16", "2"],
+                  "operator": "=="
+              },
+              {
+                  "id": ["17", "0"],
+                  "operator": "=="
+              }
+            ],
+            [
+                {
+                    "id": ["16", "2"],
+                    "operator": "=="
+                },
+                {
+                    "id": ["17", "1"],
+                    "operator": "=="
+                }
+            ]
+          ],
+          "square": true
+        },
+
+
+
+
+
+
+
+
+
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "var",
+              "question": "21",
+              "separator": "/",
+              "aliases": [
+                "Wallbox",
+                "Ladesäule"
+              ]
+            }
+          ],
+          "square": true,
+          "criterias": [
+            [
+              {
+                "question": "21",
+                "operator": "=="
+              }
+            ]
+          ]
         }
       ]
     }
