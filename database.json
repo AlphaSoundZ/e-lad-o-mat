@@ -120,8 +120,8 @@
           "type": "float"
         }
       ],
-      "hint": "Hinweis: Angaben in Kilo Volt-Ampere",
-      "question": "Aktueller Strombedarf (kVA)",
+      "hint": "Hinweis: Maximal abgerufener Leistungsbedarf | Angaben in Kilo Volt-Ampere",
+      "question": "Aktueller Leistungsbedarf (kVA)",
       "required": true
     },
     {
@@ -1337,7 +1337,7 @@
           "text": [
             {
               "type": "string",
-              "string": "Ausbaustufe 1: "
+              "string": "Ausbaustufe 1:   "
             },
             {
               "criterias": [
@@ -1516,7 +1516,7 @@
           "text": [
             {
               "type": "string",
-              "string": "Ausbaustufe 2: "
+              "string": "Ausbaustufe 2:   "
             },
             {
               "criterias": [
