@@ -45,7 +45,7 @@ var data = get(dbRef).then((snapshot) => {
     
     if (!snapshot.exists()) {
         console.log("No data available");
-    } 
+    }
     else
     {
         draw(questions);
@@ -86,7 +86,7 @@ var data = get(dbRef).then((snapshot) => {
         });
 
         // check if required condition is met for current question
-        document.addEventListener("change", function() {
+        document.addEventListener("input", function() {
             toggleNextButton(page_id, questions);
         });
     }
@@ -330,6 +330,7 @@ function loadingAnimationFix() {
     document.getElementById("loading-body").style.width = (html.clientWidth - scrollbarWidth) + "px";
 }
 
+
 function checkResultCriterias(criterias, questions, answers) {
     // check criterias
     for (var i = 0; i < criterias.length; i++) // or condition
@@ -395,9 +396,6 @@ function checkResultCriterias(criterias, questions, answers) {
 }
 
 
-// import jsPDF
-import 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js';
-
 // Result Functions
 function createResultPages(recommendations, questions) {
     // get answers
@@ -415,13 +413,26 @@ function createResultPages(recommendations, questions) {
     var downloadBtn = document.getElementById("print-button");
 
     downloadBtn.addEventListener('click', function() {
-        var pdf = new jsPDF();
+        console.log("download");
+        //var pdf = new jsPDF();
 
         // create temp div to store the content
         var temp = document.createElement("div");
         temp.id = "temp";
+        
+        // hide last page
+        var last_page = document.getElementById("page_" + getLastPageId());
+        last_page.style.display = "none";
+        
+        // hide print button
+        var print_button = document.getElementById("print-button");
+        print_button.style.display = "none";
+        
+        // show Title
+        var title = document.getElementById("title");
+        title.style.display = "block";
+        
         document.body.appendChild(temp);
-
         
         // add the content to the temp div
         for (var i = getFirstOfType("result"), last = getLastOfType("result"); i <= last; i++)
@@ -430,19 +441,51 @@ function createResultPages(recommendations, questions) {
             // create duplicate of recommendation wrapper
             var recommendation_wrapper_clone = recommendation_wrapper.cloneNode(true);
             temp.appendChild(recommendation_wrapper_clone);
+            
+            // set visibility to visible
+            recommendation_wrapper_clone.style.display = "block";
         }
 
-        // add the content to the PDF
-        pdf.fromHTML(temp);
+        // create last page
+        var last_page = document.createElement("div");
+        last_page.id = "page_" + (getLastPageId() + 1);
+        last_page.className = "page_wrapper result";
 
-        // remove the temp div
-        document.body.removeChild(temp);
+        // title
+        var title = document.createElement("h3");
+        title.innerHTML = "Bauprinzip und Ausstattungsmerkmale";
+        last_page.appendChild(title);
+
+        // text
+        var text = document.createElement("p");
+        text.innerHTML = "Schemadarstellung Ladesäule und Anordnung am Stellplatz";
+        last_page.appendChild(text);
+
+        // svg image
+        var svg = document.createElement("img");
+        svg.src = "ressources/schemazeichnung.svg";
+        svg.style.width = "75%";
+        svg.style.height = "75%";
+        svg.style.marginTop = "20px";
+        last_page.appendChild(svg);
+
+        temp.appendChild(last_page);
         
-        // Save the PDF
-        pdf.save("Empfehlung.pdf");
+
+        //hide elements with class break
+        var break_elements = document.getElementsByClassName("break");
+        for (var i = 0; i < break_elements.length; i++)
+        {
+            break_elements[i].style.display = "none";
+        }
+
+        // hide navigation
+        var navigation = document.getElementById("navigation-body");
+        navigation.style.display = "none";
+
+        wrapper.appendChild(temp);
     });
 }
-
 function createResultPage(answers, recommendation, questions, i, skipped) { // recommendation = one recommendation, i = nth recommendation
     var id = getLastPageId() + 1;
 
@@ -485,7 +528,7 @@ function createResultPage(answers, recommendation, questions, i, skipped) { // r
             var i_table = recommendation.paragraphs[i];
 
             // styling
-            table.style.width = "30%";
+            table.style.width = "40%";
 
             for (var j = 0; j < i_table["table"].length; j++)
             {
@@ -495,6 +538,7 @@ function createResultPage(answers, recommendation, questions, i, skipped) { // r
                 for (var k = 0; k < i_row.length; k++)
                 {
                     var text = getText(i_row[k], questions, answers);
+                    
                     var td = document.createElement("td");
                     td.innerHTML = text;
 
@@ -522,7 +566,7 @@ function createResultPage(answers, recommendation, questions, i, skipped) { // r
             var hr = document.createElement("hr");
 
             // styling
-            hr.style.width = "30%";
+            hr.style.width = "40%";
             hr.style.marginLeft = "0px";
             
             page_wrapper.appendChild(hr);
@@ -546,6 +590,8 @@ function createResultPage(answers, recommendation, questions, i, skipped) { // r
 
             // set text
             var text = getText(i_paragraph["text"], questions, answers);
+
+            
             paragraph.innerHTML += text;
 
             // styling
@@ -602,6 +648,9 @@ function backToHome(current_page_id) {
 
     // show start button
     show(document.getElementById("start-button"));
+
+    // show title
+    show(document.getElementById("title"));
 }
 
 function firstQuestion() {
@@ -622,6 +671,9 @@ function firstQuestion() {
 
     // show first question
     show(document.getElementById("page_0"));
+
+    // hide title
+    hide(document.getElementById("title"));
 
 }
 
@@ -658,6 +710,7 @@ function nextPage(current_page_id, data) {
     {
         hide(document.getElementById("next-button"));
         show(document.getElementById("submit-button"));
+        document.getElementById("subtitle").innerHTML = "Checkliste";
     }
     else
     {
@@ -692,7 +745,10 @@ function previousPage(current_page_id , data) {
     }
 
     if (current_page_id == getLastOfType("pre-submit")) // previous page is pre-submit page
+    {
         hide(document.getElementById("submit-button"));
+        document.getElementById("subtitle").innerHTML = "Fragenkatalog";
+    }
 
     if (current_page_id == getLastOfType("result")) // last page was last result page
         hide(document.getElementById("print-button"));
@@ -873,6 +929,9 @@ function getText(i_paragraph, questions, answers) {
                 var text = answers[x][y];
             }
 
+            if (text == parseInt(text))
+                text = formatNumber(parseInt(text));
+
             // style
         }
         else if (type == "string") // text
@@ -926,6 +985,9 @@ function getText(i_paragraph, questions, answers) {
                 }
             }
             var text = result;
+
+            if (text == parseInt(text))
+                text = formatNumber(parseInt(text));
         }
         else if (type == "br") // line break
         {
@@ -934,4 +996,8 @@ function getText(i_paragraph, questions, answers) {
         textResult += text;
     }
     return textResult;
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
