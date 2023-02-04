@@ -288,6 +288,18 @@ function checkCriterias(questions, page_id) { // return true if condition is met
         if (result == true)
             break;
     }
+
+    if (result == false)
+    {
+        // reset values of page
+        var page = document.getElementById("page_" + page_id);
+        var inputs = page.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++)
+        {
+            inputs[i].value = "";
+            inputs[i].checked = false;
+        }
+    }
     return result;
 }
 
