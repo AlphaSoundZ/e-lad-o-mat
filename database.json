@@ -330,7 +330,7 @@
           "type": "integer"
         }
       ],
-      "question": "Anzahl der Stellplätze",
+      "question": "Anzahl der Stellplätze | E-Bike",
       "required": false,
       "criterias": [
         [
@@ -497,23 +497,6 @@
           "text": [
             {
               "type": "string",
-              "string": "Aktueller Netzanschluss: "
-            },
-            {
-              "type": "var",
-              "id": ["10", "0"]
-            },
-            {
-              "type": "string",
-              "string": " kVA"
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "text": [
-            {
-              "type": "string",
               "string": "Aktuelle Anschlussleistung: "
             },
             {
@@ -547,6 +530,23 @@
               ],
               "type": "var",
               "question": "9"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Aktueller Leistungsbedarf: "
+            },
+            {
+              "type": "var",
+              "id": ["10", "0"]
+            },
+            {
+              "type": "string",
+              "string": " kVA"
             }
           ]
         },
@@ -1313,11 +1313,11 @@
           ]
         },
         {
-          "type": "text",
+          "type": "hint",
           "text": [
             {
               "type": "string",
-              "string": "Aktueller Netzanschluss: "
+              "string": "Info: Aktuelle Anschlussleistung: "
             },
             {
               "type": "var",
@@ -1337,7 +1337,7 @@
           "text": [
             {
               "type": "string",
-              "string": "Ausbaustufe 1:   "
+              "string": "1. Ausbaustufe:   "
             },
             {
               "criterias": [
@@ -1357,7 +1357,8 @@
                 {"id": ["18", "0"]},
                 {"value": "50"}
               ],
-              "operator": "*"
+              "operator": "*",
+              "addToResult": {"id": ["10", "0"]}
             },
             {
               "criterias": [
@@ -1397,7 +1398,8 @@
                 {"id": ["18", "0"]},
                 {"value": "11"}
               ],
-              "operator": "*"
+              "operator": "*",
+              "addToResult": {"id": ["10", "0"]}
             },
             {
               "criterias": [
@@ -1473,7 +1475,8 @@
                 {"id": ["18", "0"]},
                 {"value": "22"}
               ],
-              "operator": "*"
+              "operator": "*",
+              "addToResult": {"id": ["10", "0"]}
             },
             {
               "criterias": [
@@ -1503,7 +1506,8 @@
                 {"id": ["18", "0"]},
                 {"value": "3.7"}
               ],
-              "operator": "*"
+              "operator": "*",
+              "addToResult": {"id": ["10", "0"]}
             },
             {
               "type": "string",
@@ -1516,7 +1520,7 @@
           "text": [
             {
               "type": "string",
-              "string": "Ausbaustufe 2:   "
+              "string": "2. Ausbaustufe:   "
             },
             {
               "criterias": [
@@ -1536,7 +1540,8 @@
                 {"id": ["20", "0"]},
                 {"value": "50"}
               ],
-              "operator": "*"
+              "operator": "*",
+              "addToResult": {"id": ["10", "0"]}
             },
             {
               "criterias": [
@@ -1576,7 +1581,8 @@
                 {"id": ["20", "0"]},
                 {"value": "11"}
               ],
-              "operator": "*"
+              "operator": "*",
+              "addToResult": {"id": ["10", "0"]}
             },
             {
               "criterias": [
@@ -1652,7 +1658,8 @@
                 {"id": ["20", "0"]},
                 {"value": "22"}
               ],
-              "operator": "*"
+              "operator": "*",
+              "addToResult": {"id": ["10", "0"]}
             },
             {
               "criterias": [
@@ -1682,7 +1689,8 @@
                 {"id": ["20", "0"]},
                 {"value": "3.7"}
               ],
-              "operator": "*"
+              "operator": "*",
+              "addToResult": {"id": ["10", "0"]}
             },
             {
               "type": "string",

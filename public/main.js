@@ -921,16 +921,19 @@ function getText(i_paragraph, questions, answers) {
                     }
                     text = text.substring(0, text.length - i_paragraph[j].separator.length);
                 }
+
+                if (text == parseInt(text) && questions[question].answer_type == "number")
+                    text = formatNumber(parseInt(text));
             }
             else if (i_paragraph[j].id != null) // only textfield answer
             {
                 var x = i_paragraph[j].id[0];
                 var y = i_paragraph[j].id[1];
                 var text = answers[x][y];
-            }
 
-            if (text == parseInt(text))
-                text = formatNumber(parseInt(text));
+                if (text == parseInt(text) && questions[x].answers[y].type == "number")
+                    text = formatNumber(parseInt(text));
+            }
 
             // style
         }
@@ -984,6 +987,22 @@ function getText(i_paragraph, questions, answers) {
                     }
                 }
             }
+
+            if (i_paragraph[j].addToResult != null)
+            {
+                if (i_paragraph[j].addToResult.id != null) // question
+                {
+                    var x = i_paragraph[j].addToResult.id[0];
+                    var y = i_paragraph[j].addToResult.id[1];
+                    var addValue = answers[x][y];
+                }
+                else if (i_paragraph[j].addToResult.value != null) // number
+                {
+                    var addValue = i_paragraph[j].values[k].value;
+                }
+                result = parseInt(result) + parseInt(addValue);
+            }
+
             var text = result;
 
             if (text == parseInt(text))
