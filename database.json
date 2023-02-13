@@ -229,7 +229,7 @@
           "type": "integer"
         }
       ],
-      "hint": "Hinweis: Summe der geplanten Ladepunkte (Aktuell und Zukunft)",
+      "hint": "Hinweis: Summe der geplanten Ladepunkte (aktuell und zukünftig)",
       "question": "Anzahl der geplanten Ladepunkte",
       "required": false,
       "criterias": [
@@ -773,36 +773,6 @@
               "type": "string",
               "string": " Ladepunkte"
             }
-          ],
-          "criterias": [
-            [
-              {
-                "id": ["20", "0"],
-                "operator": "=="
-              }
-            ]
-          ],
-          "square": true
-        },
-        {
-          "type": "text",
-          "text": [
-            {
-              "type": "var",
-              "id": ["18", "0"]
-            },
-            {
-              "type": "string",
-              "string": " Ladepunkte"
-            }
-          ],
-          "criterias": [
-            [
-              {
-                "id": ["20", "0"],
-                "operator": "!="
-              }
-            ]
           ],
           "square": true
         },
@@ -1960,46 +1930,7 @@
             ]
           ]
         },
-        {
-          "type": "table",
-          "table": [
-            [
-              [
-                {
-                  "type": "string",
-                  "string": "Betrieb/Wartung: "
-                }
-              ],
-              [
-                {
-                  "type": "calc",
-                  "operator": "*",
-                  "values": [
-                    {"id": ["18", "0"]},
-                    {"value": "3000"}
-                  ]
-                },
-                {
-                  "type": "string",
-                  "string": " €/a"
-                }
-              ]
-            ]
-          ],
-          "block": true,
-          "criterias": [
-            [
-              {
-                "id": ["16", "0"],
-                "operator": "=="
-              },
-              {
-                "id": ["17", "0"],
-                "operator": "=="
-              }
-            ]
-          ]
-        },
+
 
         {
           "type": "table",
@@ -2199,66 +2130,7 @@
             ]
           ]
         },
-        {
-          "type": "table",
-          "table": [
-            [
-              [
-                {
-                  "type": "string",
-                  "string": "Betrieb/Wartung: "
-                }
-              ],
-              [
-                {
-                  "type": "calc",
-                  "operator": "*",
-                  "values": [
-                    {"id": ["18", "0"]},
-                    {"value": "1500"}
-                  ]
-                },
-                {
-                  "type": "string",
-                  "string": " €/a"
-                }
-              ]
-            ]
-          ],
-          "block": true,
-          "criterias": [
-            [
-                {
-                    "id": ["16", "0"],
-                    "operator": "=="
-                },
-                {
-                    "id": ["17", "1"],
-                    "operator": "=="
-                }
-            ],
-            [
-                {
-                    "id": ["16", "1"],
-                    "operator": "=="
-                },
-                {
-                    "id": ["17", "0"],
-                    "operator": "=="
-                }
-            ],
-            [
-                {
-                  "id": ["16", "1"],
-                    "operator": "=="
-                },
-                {
-                    "id": ["17", "1"],
-                    "operator": "=="
-                }
-            ]
-          ]
-        },
+
 
         {
           "type": "table",
@@ -2429,53 +2301,12 @@
           ]
         },
         {
-          "type": "table",
-          "table": [
-            [
-              [
-                {
-                  "type": "string",
-                  "string": "Betrieb/Wartung: "
-                }
-              ],
-              [
-                {
-                  "type": "calc",
-                  "operator": "*",
-                  "values": [
-                    {"id": ["18", "0"]},
-                    {"value": "1500"}
-                  ]
-                },
-                {
-                  "type": "string",
-                  "string": " €/a"
-                }
-              ]
-            ]
-          ],
-          "block": true,
-          "criterias": [
-            [
-                {
-                    "id": ["16", "2"],
-                    "operator": "=="
-                },
-                {
-                    "id": ["17", "0"],
-                    "operator": "=="
-                }
-            ],
-            [
-                {
-                    "id": ["16", "2"],
-                    "operator": "=="
-                },
-                {
-                    "id": ["17", "1"],
-                    "operator": "=="
-                }
-            ]
+          "type": "text",
+          "text": [
+            {
+              "type": "string",
+              "string": "Kosten für Betrieb/Wartung müssen individuell Berechnet werden."
+            }
           ]
         }
       ]
