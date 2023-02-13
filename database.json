@@ -767,7 +767,7 @@
           "text": [
             {
               "type": "var",
-              "id": ["20", "0"]
+              "id": ["18", "0"]
             },
             {
               "type": "string",
@@ -2301,11 +2301,14 @@
           ]
         },
         {
-          "type": "text",
+          "type": "hint",
           "text": [
             {
+              "type": "br"
+            },
+            {
               "type": "string",
-              "string": "Kosten für Betrieb/Wartung müssen individuell Berechnet werden."
+              "string": "Kosten für Betrieb/Wartung müssen individuell berechnet werden."
             }
           ]
         }
